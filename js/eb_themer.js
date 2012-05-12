@@ -1,6 +1,7 @@
 var eb_themer = {
   'access_token': '',
   'init': function( example_eid ){
+    eb_themer.example_eid = example_eid;
     eb_themer.detect_login_state();
     if(eb_themer.access_token !== ''){
       document.getElementById( 'themer_welcome' ).setAttribute("style", "display:none;");
