@@ -1,5 +1,5 @@
 var eb_themer = {
-  'access_token' = '',
+  'access_token': '',
   'init': function( example_eid ){
     eb_themer.detect_login_state();
     if(eb_themer.access_token !== ''){
@@ -7,14 +7,14 @@ var eb_themer = {
       document.getElementById( 'themer_controls' ).setAttribute("style", "display:block;");
 
       // load the event list and event theme when ready
-      jQuery('document').ready(function(){ 
+      //jQuery('document').ready(function(){ 
         eb_themer.extend_client_lib();
         eb_themer.load_event_list('eb_my_events');
         eb_themer.get_event_theme( example_eid );
-      });
+      //});
     }
   },
-  'events_cache' = [];
+  'events_cache': [],
   'detect_login_state': function(){
     if( window.location.hash.slice( window.location.hash.indexOf("access_token=") + 13 ).indexOf("&") !== -1){
       //partial fragment slice
@@ -34,8 +34,8 @@ var eb_themer = {
         'do_not_display':"description,logo,style,organizer,tickets"
       };
       eb.user_list_events( options, function( response ){
-        document.getElementById( display_at ).innerHTML += eb.utils.eventList( response, event_line_formatter );
-        detect_empty_event_list( display_at );
+        document.getElementById( display_at ).innerHTML += eb.utils.eventList( response, eb.utils.eventListRow );
+        eb_themer.detect_empty_event_list( display_at );
       });
       var options = {
         'event_statuses': "draft",
@@ -43,8 +43,8 @@ var eb_themer = {
         'do_not_display':"description,logo,style,organizer,tickets"
       };
       eb.user_list_events( options, function( response ){
-        document.getElementById( display_at ).innerHTML += eb.utils.eventList( response, event_line_formatter );
-        detect_empty_event_list( display_at );
+        document.getElementById( display_at ).innerHTML += eb.utils.eventList( response, eb.utils.eventListRow );
+        eb_themer.detect_empty_event_list( display_at );
       });
     });
   },
@@ -55,7 +55,7 @@ var eb_themer = {
     }
   },
   'get_event_theme': function( from_eid ){
-    if( from_eid == undefined ){ var from_eid = eb_themer.example_eid }
+    if( from_eid == undefined ){ from_eid = eb_themer.example_eid; }
 
     //if we have already fetched this eid, return our cached copy.
     console.log("looking up event: " + from_eid );
@@ -63,7 +63,7 @@ var eb_themer = {
       return eb_themer.events_cache[from_eid];
     }else{
       //find, cache, and return
-      Eventbrite({'access_token': eb_access_token }, function(eb){
+      Eventbrite({'access_token': eb_themer.access_token }, function(eb){
         var options = {
           'display': 'custom_header,custom_footer',
           'id'     : from_eid
@@ -102,8 +102,8 @@ var eb_themer = {
     }; 
     var eb_updated = 0;
     var pending_updates = 5;
-    Eventbrite({'access_token': eb_access_token }, function(eb){
-      // add a spinner here...
+    Eventbrite({'access_token': eb_themer.access_token }, function(eb){
+      // add a spinner here?...
       eb.event_update( eb_header, function( response ){
         console.log(response);
         eb_updated = eb_updated +1;
