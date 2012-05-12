@@ -94,11 +94,11 @@ var eb_themer = {
       'event_id': to_eid
     };
     var eb_header = {
-      "event_id": to_id,
+      "event_id": to_eid,
       "custom_header": example_event.custom_header
     }; 
     var eb_footer= {
-      "event_id": to_id,
+      "event_id": to_eid,
       "custom_footer": example_event.custom_footer
     }; 
     var eb_updated = 0;
