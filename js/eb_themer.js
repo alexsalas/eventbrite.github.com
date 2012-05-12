@@ -3,7 +3,10 @@ var eb_themer = {
   'init': function( example_eid ){
     eb_themer.example_eid = example_eid;
     eb_themer.detect_login_state();
+
     if(eb_themer.access_token !== ''){
+      document.getElementById( 'themer_welcome' ).setAttribute("style", "display:none;");
+      document.getElementById( 'themer_controls' ).setAttribute("style", "display:block;");
       eb_themer.extend_client_lib();
       eb_themer.load_event_list('eb_my_events');
       eb_themer.get_event_theme( example_eid );
@@ -213,9 +216,3 @@ var eb_themer = {
     };
   }
 };
-
-eb_themer.detect_login_state();
-if(eb_themer.access_token !== ''){
-  document.getElementById( 'themer_welcome' ).setAttribute("style", "display:none;");
-  document.getElementById( 'themer_controls' ).setAttribute("style", "display:block;");
-}
