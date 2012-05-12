@@ -196,7 +196,7 @@ var eb_themer = {
       eb.event_new( new_event, function( response ){
         console.log(response);
         if(response.process !== undefined && response.process.id !== undefined){
-          eb_stella_theme(response.process.id);
+          eb_themer.apply_theme( response.process.id, example_event.id);
           var new_ticket = {'event_id': response.process.id, 'name': example_event.tickets[0].ticket.name, 'price': '0.00', 'quantity': 100};
           eb.ticket_new( new_ticket, function( response ){ console.log(response); });
         }
@@ -232,7 +232,7 @@ var eb_themer = {
       html = "<div class='event_info'>" + 
            "<h4 class='eb_event_list_title'><a href='" + evnt['url'] + "'>" + evnt['title'] + draft + "</a></h4><table><tbody class='when_where'>" +
            "<tr><th>When:</th><td><span class='eb_event_list_date'>" + date_string + "</span> <span class='eb_event_list_time'>" + time_string + "</span></td>" +
-           "<td rowspan=2 class='apply-button'><a href='#' class='button_medium_grey' onclick='eb_stella_theme(" + evnt['id'] + ")'>Apply Theme</a></td></tr>" +
+           "<td rowspan=2 class='apply-button'><a href='#' class='button_medium_grey' onclick='eb_themer.apply_theme(" + evnt['id'] + ")'>Apply Theme</a></td></tr>" +
            "<tr><th>Where:</th><td>" + venue_name + "</span></td></tr></tbody></table></div>";
       return html;
     };
