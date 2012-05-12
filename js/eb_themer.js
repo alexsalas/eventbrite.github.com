@@ -70,7 +70,7 @@ var eb_themer = {
         };
         eb.event_get( options, function( response ){
           if( response.event !== undefined ){
-            eb_themer.events[from_eid] = response.event;
+            eb_themer.events_cache[from_eid] = response.event;
             return response.event;
           }else{
             console.log("Failed to find event: " + from_eid);
