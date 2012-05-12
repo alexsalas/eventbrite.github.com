@@ -4,15 +4,9 @@ var eb_themer = {
     eb_themer.example_eid = example_eid;
     eb_themer.detect_login_state();
     if(eb_themer.access_token !== ''){
-      document.getElementById( 'themer_welcome' ).setAttribute("style", "display:none;");
-      document.getElementById( 'themer_controls' ).setAttribute("style", "display:block;");
-
-      // load the event list and event theme when ready
-      //jQuery('document').ready(function(){ 
-        eb_themer.extend_client_lib();
-        eb_themer.load_event_list('eb_my_events');
-        eb_themer.get_event_theme( example_eid );
-      //});
+      eb_themer.extend_client_lib();
+      eb_themer.load_event_list('eb_my_events');
+      eb_themer.get_event_theme( example_eid );
     }
   },
   'events_cache': [],
@@ -83,12 +77,13 @@ var eb_themer = {
   'apply_theme': function( to_eid, from_eid ){
     var example_event = eb_themer.get_event_theme( from_eid );
     var eb_theme_basics = {
-      "box_header_text_color": example_event.box_header_text_color,
-      "link_color": example_event.link_color,
-      "box_background_color": example_event.box_background_color,
-      "box_border_color": example_event.box_border_color,
       "background_color": example_event.background_color,
       "text_color": example_event.text_color,
+      "title_text_color": example_event.title_text_color,
+      "link_color": example_event.link_color,
+      "box_header_text_color": example_event.box_header_text_color,
+      "box_background_color": example_event.box_background_color,
+      "box_border_color": example_event.box_border_color,
       "box_text_color": example_event.box_text_color,
       "box_header_background_color": example_event.box_header_background_color,
       'event_id': to_eid
@@ -110,7 +105,7 @@ var eb_themer = {
         eb_updated = eb_updated +1;
         if(response.process !== undefined && response.process.id !== undefined && eb_updated == pending_updates){
           console.log("redirect to eid: " + response.process.id);
-          //window.location = eb.utils.edit_link( response.process.id );
+          window.location = eb.utils.edit_link( response.process.id );
           console.log( eb.utils.edit_link( response.process.id ) );
         }else if(response.error !== undefined){
           console.log("Error updating the event: "); console.log(response.error);
@@ -121,7 +116,7 @@ var eb_themer = {
         eb_updated = eb_updated +1;
         if(response.process !== undefined && response.process.id !== undefined && eb_updated == pending_updates){
           console.log("redirect to eid: " + response.process.id);
-          //window.location = eb.utils.edit_link( response.process.id );
+          window.location = eb.utils.edit_link( response.process.id );
           console.log( eb.utils.edit_link( response.process.id ) );
         }else if(response.error !== undefined){
           console.log("Error updating the event: "); console.log(response.error);
@@ -132,7 +127,7 @@ var eb_themer = {
         eb_updated = eb_updated +1;
         if(response.process !== undefined && response.process.id !== undefined && eb_updated == pending_updates){
           console.log("redirect to eid: " + response.process.id);
-          //window.location = eb.utils.edit_link( response.process.id );
+          window.location = eb.utils.edit_link( response.process.id );
           console.log( eb.utils.edit_link( response.process.id ) );
         }else if(response.error !== undefined){
           console.log("Error updating the event: "); console.log(response.error);
@@ -143,7 +138,7 @@ var eb_themer = {
         eb_updated = eb_updated +1;
         if(response.process !== undefined && response.process.id !== undefined && eb_updated == pending_updates){
           console.log("redirect to eid: " + response.process.id);
-          //window.location = eb.utils.edit_link( response.process.id );
+          window.location = eb.utils.edit_link( response.process.id );
           console.log( eb.utils.edit_link( response.process.id ) );
         }else if(response.error !== undefined){
           console.log("Error updating the event: "); console.log(response.error);
@@ -154,29 +149,7 @@ var eb_themer = {
         eb_updated = eb_updated +1;
         if(response.process !== undefined && response.process.id !== undefined && eb_updated == pending_updates){
           console.log("redirect to eid: " + response.process.id);
-          //window.location = eb.utils.edit_link( response.process.id );
-          console.log( eb.utils.edit_link( response.process.id ) );
-        }else if(response.error !== undefined){
-          console.log("Error updating the event: "); console.log(response.error);
-        }
-      });
-      eb.event_update( eb_header, function( response ){
-        console.log(response);
-        eb_updated = eb_updated +1;
-        if(response.process !== undefined && response.process.id !== undefined && eb_updated == pending_updates){
-          console.log("redirect to eid: " + response.process.id);
-          //window.location = eb.utils.edit_link( response.process.id );
-          console.log( eb.utils.edit_link( response.process.id ) );
-        }else if(response.error !== undefined){
-          console.log("Error updating the event: "); console.log(response.error);
-        }
-      });
-      eb.event_update( eb_footer, function( response ){
-        console.log(response);
-        eb_updated = eb_updated +1;
-        if(response.process !== undefined && response.process.id !== undefined && eb_updated == pending_updates){
-          console.log("redirect to eid: " + response.process.id);
-          //window.location = eb.utils.edit_link( response.process.id );
+          window.location = eb.utils.edit_link( response.process.id );
           console.log( eb.utils.edit_link( response.process.id ) );
         }else if(response.error !== undefined){
           console.log("Error updating the event: "); console.log(response.error);
@@ -192,7 +165,8 @@ var eb_themer = {
         'title': example_event.title,
         'start_date': example_event.start_date,
         'end_date': example_event.end_date,
-        'description': example_event.description
+        'description': example_event.description,
+        'privacy': 1
       };
       eb.event_new( new_event, function( response ){
         console.log(response);
@@ -239,3 +213,9 @@ var eb_themer = {
     };
   }
 };
+
+eb_themer.detect_login_state();
+if(eb_themer.access_token !== ''){
+  document.getElementById( 'themer_welcome' ).setAttribute("style", "display:none;");
+  document.getElementById( 'themer_controls' ).setAttribute("style", "display:block;");
+}
