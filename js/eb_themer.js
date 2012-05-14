@@ -5,8 +5,8 @@ var eb_themer = {
     eb_themer.detect_login_state();
 
     if(eb_themer.access_token !== ''){
-      document.getElementById( 'themer_welcome' ).setAttribute("style", "display:none;");
-      document.getElementById( 'themer_controls' ).setAttribute("style", "display:block;");
+      document.getElementById( 'themer_welcome' ).style.display = 'none';
+      document.getElementById( 'themer_controls' ).style.display = 'block';
       eb_themer.extend_client_lib();
       eb_themer.load_event_list('eb_my_events');
       eb_themer.get_event_theme( example_eid );
@@ -78,6 +78,12 @@ var eb_themer = {
     }
   },
   'apply_theme': function( to_eid, from_eid ){
+    $('#next_steps').dialog({'autoOpen': true,
+      'height': 200,
+      'width': 400,
+      'modal': true,
+      'closeOnEscape': false
+    });
     var example_event = eb_themer.get_event_theme( from_eid );
     var eb_theme_basics = {
       "background_color": example_event.background_color,
@@ -102,63 +108,37 @@ var eb_themer = {
     var eb_updated = 0;
     var pending_updates = 5;
     Eventbrite({'access_token': eb_themer.access_token }, function(eb){
-      // add a spinner here?...
       eb.event_update( eb_header, function( response ){
-        console.log(response);
         eb_updated = eb_updated +1;
-        if(response.process !== undefined && response.process.id !== undefined && eb_updated == pending_updates){
-          console.log("redirect to eid: " + response.process.id);
-          window.location = eb.utils.edit_link( response.process.id );
-          console.log( eb.utils.edit_link( response.process.id ) );
-        }else if(response.error !== undefined){
-          console.log("Error updating the event: "); console.log(response.error);
-        }
+        eb_themer.check_theme_update( response, eb_updated, pending_updates);
       });
       eb.event_update( eb_footer, function( response ){
-        console.log(response);
         eb_updated = eb_updated +1;
-        if(response.process !== undefined && response.process.id !== undefined && eb_updated == pending_updates){
-          console.log("redirect to eid: " + response.process.id);
-          window.location = eb.utils.edit_link( response.process.id );
-          console.log( eb.utils.edit_link( response.process.id ) );
-        }else if(response.error !== undefined){
-          console.log("Error updating the event: "); console.log(response.error);
-        }
+        eb_themer.check_theme_update( response, eb_updated, pending_updates);
       });
       eb.event_update( eb_theme_basics, function( response ){
-        console.log(response);
         eb_updated = eb_updated +1;
-        if(response.process !== undefined && response.process.id !== undefined && eb_updated == pending_updates){
-          console.log("redirect to eid: " + response.process.id);
-          window.location = eb.utils.edit_link( response.process.id );
-          console.log( eb.utils.edit_link( response.process.id ) );
-        }else if(response.error !== undefined){
-          console.log("Error updating the event: "); console.log(response.error);
-        }
+        eb_themer.check_theme_update( response, eb_updated, pending_updates);
       });
+      document.getElementById('proceed_to_event_page').href = eb.utils.edit_link( to_eid );
       eb.event_update( eb_header, function( response ){
-        console.log(response);
         eb_updated = eb_updated +1;
-        if(response.process !== undefined && response.process.id !== undefined && eb_updated == pending_updates){
-          console.log("redirect to eid: " + response.process.id);
-          window.location = eb.utils.edit_link( response.process.id );
-          console.log( eb.utils.edit_link( response.process.id ) );
-        }else if(response.error !== undefined){
-          console.log("Error updating the event: "); console.log(response.error);
-        }
+        eb_themer.check_theme_update( response, eb_updated, pending_updates);
       });
       eb.event_update( eb_footer, function( response ){
-        console.log(response);
         eb_updated = eb_updated +1;
-        if(response.process !== undefined && response.process.id !== undefined && eb_updated == pending_updates){
-          console.log("redirect to eid: " + response.process.id);
-          window.location = eb.utils.edit_link( response.process.id );
-          console.log( eb.utils.edit_link( response.process.id ) );
-        }else if(response.error !== undefined){
-          console.log("Error updating the event: "); console.log(response.error);
-        }
+        eb_themer.check_theme_update( response, eb_updated, pending_updates);
       });
     });  
+  },
+  'check_theme_update': function( response, step_x, of_n ){
+    console.log(response);
+    if(response.process !== undefined && response.process.id !== undefined && step_x == of_n){
+      document.getElementById('progress_step_' + (step_x - 1) ).style.display = 'none';
+      document.getElementById('progress_step_' + step_x ).style.display = 'block';
+    }else if(response.error !== undefined){
+      console.log("Error updating the event: "); console.log(response.error);
+    }
   },
   'clone_event': function( example_event_id ){
     var example_event = eb_themer.get_event_theme( example_event_id );
