@@ -81,7 +81,7 @@ var eb_themer = {
     document.getElementById('update_in_progress' ).style.display = 'block';
     document.getElementById('process_complete' ).style.display = 'none';
     $('#next_steps').dialog({'autoOpen': true,
-      'height': 200,
+      'height': 250,
       'width': 400,
       'modal': true,
       'closeOnEscape': false
