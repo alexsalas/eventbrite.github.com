@@ -115,9 +115,9 @@ var eb_themer = {
     document.getElementById('progress_step_' + eb_themer.pending_updates ).style.display = 'none';
     document.getElementById('progress_step_0' ).style.display = 'block';
     Eventbrite({'access_token': eb_themer.access_token }, function(eb){
-      eb.event_update( eb_header, eb_themer.check_theme_update( response, eb, eb_header));
-      eb.event_update( eb_footer, eb_themer.check_theme_update( response, eb, eb_footer));
-      eb.event_update( eb_theme_basics, eb_themer.check_theme_update( response, eb, eb_theme_basics));
+      eb.event_update( eb_header, function(response){ eb_themer.check_theme_update( response, eb, eb_header); });
+      eb.event_update( eb_footer, function(response){ eb_themer.check_theme_update( response, eb, eb_footer); });
+      eb.event_update( eb_theme_basics, function(response){ eb_themer.check_theme_update( response, eb, eb_theme_basics); });
       document.getElementById('proceed_to_event_page').href = eb.utils.edit_link( to_eid );
     });  
   },
