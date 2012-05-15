@@ -111,7 +111,7 @@ var eb_themer = {
     var pending_updates = 5;
     
     // Check our UI, cleanup and reset from the previous run:
-    document.getElementById('progress_step_' + pending_updates ).style.display = 'none';
+    document.getElementById('progress_step_' + (pending_updates - 1) ).style.display = 'none';
     document.getElementById('progress_step_1' ).style.display = 'block';
     Eventbrite({'access_token': eb_themer.access_token }, function(eb){
       eb.event_update( eb_header, function( response ){
