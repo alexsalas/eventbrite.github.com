@@ -159,7 +159,6 @@ var eb_themer = {
     //print the final next_step info:
     document.getElementById('update_in_progress' ).style.display = 'none';
     document.getElementById('process_complete' ).style.display = 'block';
-    document.getElementById('progress_step_' + (step_x - 1) ).style.display = 'none';
   },
   'clone_event': function( example_event_id ){
     var example_event = eb_themer.get_event_theme( example_event_id );
