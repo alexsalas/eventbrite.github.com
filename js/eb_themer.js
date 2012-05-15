@@ -131,9 +131,9 @@ var eb_themer = {
     {
       eb_themer.completed_updates = eb_themer.completed_updates + 1;
       //show the current progress step:
-      document.getElementById('progress_step_' + step_x ).style.display = 'block';
+      document.getElementById('progress_step_' + eb_themer.completed_updates ).style.display = 'block';
       //hide the previous progress step:
-      document.getElementById('progress_step_' + (step_x - 1) ).style.display = 'none';
+      document.getElementById('progress_step_' + (eb_themer.completed_updates - 1) ).style.display = 'none';
     }
     if( eb_themer.completed_updates >= eb_themer.pending_updates ){
       var example_event = eb_themer.get_event_theme();
