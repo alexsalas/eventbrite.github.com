@@ -1,6 +1,6 @@
 var eb_themer = {
-  'pending_updates' = 3;
-  'completed_updates' = 0;
+  'pending_updates': 3;
+  'completed_updates': 0;
   'access_token': '',
   'init': function( example_eid ){
     eb_themer.example_eid = example_eid;
