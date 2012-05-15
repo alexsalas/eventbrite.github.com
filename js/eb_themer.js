@@ -1,6 +1,7 @@
 var eb_themer = {
   'pending_updates': 3,
   'completed_updates': 0,
+  'max_update_attempts': 10,
   'access_token': '',
   'init': function( example_eid ){
     eb_themer.example_eid = example_eid;
@@ -115,13 +116,13 @@ var eb_themer = {
     document.getElementById('progress_step_' + eb_themer.pending_updates ).style.display = 'none';
     document.getElementById('progress_step_0' ).style.display = 'block';
     Eventbrite({'access_token': eb_themer.access_token }, function(eb){
-      eb.event_update( eb_header, function(response){ eb_themer.check_theme_update( response, eb, eb_header); });
-      eb.event_update( eb_footer, function(response){ eb_themer.check_theme_update( response, eb, eb_footer); });
-      eb.event_update( eb_theme_basics, function(response){ eb_themer.check_theme_update( response, eb, eb_theme_basics); });
+      eb.event_update( eb_header, function(response){ eb_themer.check_theme_update( response, eb, eb_header, 1); });
+      eb.event_update( eb_footer, function(response){ eb_themer.check_theme_update( response, eb, eb_footer, 1); });
+      eb.event_update( eb_theme_basics, function(response){ eb_themer.check_theme_update( response, eb, eb_theme_basics, 1); });
       document.getElementById('proceed_to_event_page').href = eb.utils.edit_link( to_eid );
     });  
   },
-  'check_theme_update': function( response, eb, update_details ){
+  'check_theme_update': function( response, eb, update_details, iteration ){
     if(response.error !== undefined){
       console.log("Error updating the event: "); console.log(response.error);
     }else{
@@ -136,23 +137,30 @@ var eb_themer = {
       document.getElementById('progress_step_' + (eb_themer.completed_updates - 1) ).style.display = 'none';
     }
     if( eb_themer.completed_updates >= eb_themer.pending_updates ){
-      var example_event = eb_themer.get_event_theme();
-      eb.event_get({'id': update_details.event_id, 'display': 'custom_header,custom_footer' }, function(response){
-        if( response.event.custom_footer == example_event.custom_footer
-         && response.event.custom_header == example_event.custom_header){
-          eb_themer.show_next_steps();
-        }else{
-          var event_update_details = {'event_id': update_details.event_id };
-          if( response.event.custom_footer !== example_event.custom_footer ){
-            //Try updating the footer again...
-            event_update_details.custom_footer = example_event.custom_footer;
-          }else if( response.event.custom_header !== example_event.custom_header ){
-            //Try updating the header again...
-            event_update_details.custom_header = example_event.custom_header;
+      if( iteration <= eb_themer.max_update_attempts)
+      {
+        var example_event = eb_themer.get_event_theme();
+        eb.event_get({'id': update_details.event_id, 'display': 'custom_header,custom_footer' }, function(response){
+          if( response.event.custom_footer == example_event.custom_footer
+           && response.event.custom_header == example_event.custom_header){
+            eb_themer.show_next_steps();
+          }else{
+            var event_update_details = {'event_id': update_details.event_id };
+            if( response.event.custom_footer !== example_event.custom_footer ){
+              //Try updating the footer again...
+              event_update_details.custom_footer = example_event.custom_footer;
+            }else if( response.event.custom_header !== example_event.custom_header ){
+              //Try updating the header again...
+              event_update_details.custom_header = example_event.custom_header;
+            }
+            eb.event_update(event_update_details, eb_themer.check_theme_update( response, eb, event_update_details, iteration + 1));
+        
           }
-          eb.event_update(event_update_details, eb_themer.check_theme_update( response, eb, event_update_details));
-        }
-      });
+        });
+      }else{
+        console.log("Retry limit hit! Proceeding to next-steps without a verified theme change... "); console.log(response);
+        eb_themer.show_next_steps();
+      }
     }
   },
   'show_next_steps': function(){
