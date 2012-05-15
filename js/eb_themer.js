@@ -78,6 +78,8 @@ var eb_themer = {
     }
   },
   'apply_theme': function( to_eid, from_eid ){
+    document.getElementById('update_in_progress' ).style.display = 'block';
+    document.getElementById('process_complete' ).style.display = 'none';
     $('#next_steps').dialog({'autoOpen': true,
       'height': 200,
       'width': 400,
@@ -107,6 +109,10 @@ var eb_themer = {
     }; 
     var eb_updated = 0;
     var pending_updates = 5;
+    
+    // Check our UI, cleanup and reset from the previous run:
+    document.getElementById('progress_step_' + pending_updates ).style.display = 'none';
+    document.getElementById('progress_step_1' ).style.display = 'block';
     Eventbrite({'access_token': eb_themer.access_token }, function(eb){
       eb.event_update( eb_header, function( response ){
         eb_updated = eb_updated +1;
@@ -133,9 +139,18 @@ var eb_themer = {
   },
   'check_theme_update': function( response, step_x, of_n ){
     console.log(response);
-    if(response.process !== undefined && response.process.id !== undefined && step_x == of_n){
-      document.getElementById('progress_step_' + (step_x - 1) ).style.display = 'none';
-      document.getElementById('progress_step_' + step_x ).style.display = 'block';
+    if(response.process !== undefined && response.process.id !== undefined ){
+      if( step_x == of_n ){
+        //print the final next_step info:
+        document.getElementById('update_in_progress' ).style.display = 'none';
+        document.getElementById('progress_step_' + of_n ).style.display = 'none';
+        document.getElementById('process_complete' ).style.display = 'block';
+      }else if ( step_x !== 1){
+        //show the current progress step:
+        document.getElementById('progress_step_' + step_x ).style.display = 'block';
+        //hide the previous progress step:
+        document.getElementById('progress_step_' + (step_x - 1) ).style.display = 'none';
+      }
     }else if(response.error !== undefined){
       console.log("Error updating the event: "); console.log(response.error);
     }
