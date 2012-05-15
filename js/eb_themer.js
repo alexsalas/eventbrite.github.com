@@ -112,7 +112,7 @@ var eb_themer = {
     eb_themer.completed_updates = 0;
     
     // Check our UI, cleanup and reset from the previous run:
-    document.getElementById('progress_step_' + pending_updates ).style.display = 'none';
+    document.getElementById('progress_step_' + eb_themer.pending_updates ).style.display = 'none';
     document.getElementById('progress_step_0' ).style.display = 'block';
     Eventbrite({'access_token': eb_themer.access_token }, function(eb){
       eb.event_update( eb_header, eb_themer.check_theme_update( response, eb, eb_header));
