@@ -143,8 +143,8 @@ var eb_themer = {
       if( step_x == of_n ){
         //print the final next_step info:
         document.getElementById('update_in_progress' ).style.display = 'none';
-        document.getElementById('progress_step_' + of_n ).style.display = 'none';
         document.getElementById('process_complete' ).style.display = 'block';
+        document.getElementById('progress_step_' + (step_x - 1) ).style.display = 'none';
       }else if ( step_x !== 1){
         //show the current progress step:
         document.getElementById('progress_step_' + step_x ).style.display = 'block';
