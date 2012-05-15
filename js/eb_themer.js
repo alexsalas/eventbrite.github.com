@@ -1,4 +1,6 @@
 var eb_themer = {
+  'pending_updates' = 3;
+  'completed_updates' = 0;
   'access_token': '',
   'init': function( example_eid ){
     eb_themer.example_eid = example_eid;
@@ -12,7 +14,7 @@ var eb_themer = {
       eb_themer.get_event_theme( example_eid );
     }
   },
-  'events_cache': [],
+  'event_cache': undefined,
   'detect_login_state': function(){
     if( window.location.hash.slice( window.location.hash.indexOf("access_token=") + 13 ).indexOf("&") !== -1){
       //partial fragment slice
@@ -57,8 +59,8 @@ var eb_themer = {
 
     //if we have already fetched this eid, return our cached copy.
     console.log("looking up event: " + from_eid );
-    if(eb_themer.events_cache[from_eid] !== undefined ){
-      return eb_themer.events_cache[from_eid];
+    if(eb_themer.event_cache !== undefined ){
+      return eb_themer.event_cache;
     }else{
       //find, cache, and return
       Eventbrite({'access_token': eb_themer.access_token }, function(eb){
@@ -68,7 +70,7 @@ var eb_themer = {
         };
         eb.event_get( options, function( response ){
           if( response.event !== undefined ){
-            eb_themer.events_cache[from_eid] = response.event;
+            eb_themer.event_cache = response.event;
             return response.event;
           }else{
             console.log("Failed to find event: " + from_eid);
@@ -107,53 +109,57 @@ var eb_themer = {
       "event_id": to_eid,
       "custom_footer": example_event.custom_footer
     }; 
-    var eb_updated = 0;
-    var pending_updates = 5;
+    eb_themer.completed_updates = 0;
     
     // Check our UI, cleanup and reset from the previous run:
-    document.getElementById('progress_step_' + (pending_updates - 1) ).style.display = 'none';
-    document.getElementById('progress_step_1' ).style.display = 'block';
+    document.getElementById('progress_step_' + pending_updates ).style.display = 'none';
+    document.getElementById('progress_step_0' ).style.display = 'block';
     Eventbrite({'access_token': eb_themer.access_token }, function(eb){
-      eb.event_update( eb_header, function( response ){
-        eb_updated = eb_updated +1;
-        eb_themer.check_theme_update( response, eb_updated, pending_updates);
-      });
-      eb.event_update( eb_footer, function( response ){
-        eb_updated = eb_updated +1;
-        eb_themer.check_theme_update( response, eb_updated, pending_updates);
-      });
-      eb.event_update( eb_theme_basics, function( response ){
-        eb_updated = eb_updated +1;
-        eb_themer.check_theme_update( response, eb_updated, pending_updates);
-      });
+      eb.event_update( eb_header, eb_themer.check_theme_update( response, eb, eb_header));
+      eb.event_update( eb_footer, eb_themer.check_theme_update( response, eb, eb_footer));
+      eb.event_update( eb_theme_basics, eb_themer.check_theme_update( response, eb, eb_theme_basics));
       document.getElementById('proceed_to_event_page').href = eb.utils.edit_link( to_eid );
-      eb.event_update( eb_header, function( response ){
-        eb_updated = eb_updated +1;
-        eb_themer.check_theme_update( response, eb_updated, pending_updates);
-      });
-      eb.event_update( eb_footer, function( response ){
-        eb_updated = eb_updated +1;
-        eb_themer.check_theme_update( response, eb_updated, pending_updates);
-      });
     });  
   },
-  'check_theme_update': function( response, step_x, of_n ){
-    console.log(response);
-    if(response.process !== undefined && response.process.id !== undefined ){
-      if( step_x == of_n ){
-        //print the final next_step info:
-        document.getElementById('update_in_progress' ).style.display = 'none';
-        document.getElementById('process_complete' ).style.display = 'block';
-        document.getElementById('progress_step_' + (step_x - 1) ).style.display = 'none';
-      }else if ( step_x !== 1){
-        //show the current progress step:
-        document.getElementById('progress_step_' + step_x ).style.display = 'block';
-        //hide the previous progress step:
-        document.getElementById('progress_step_' + (step_x - 1) ).style.display = 'none';
-      }
-    }else if(response.error !== undefined){
+  'check_theme_update': function( response, eb, update_details ){
+    if(response.error !== undefined){
       console.log("Error updating the event: "); console.log(response.error);
+    }else{
+      console.log(response);
     }
+    if( eb_themer.completed_updates < eb_themer.pending_updates)
+    {
+      eb_themer.completed_updates = eb_themer.completed_updates + 1;
+      //show the current progress step:
+      document.getElementById('progress_step_' + step_x ).style.display = 'block';
+      //hide the previous progress step:
+      document.getElementById('progress_step_' + (step_x - 1) ).style.display = 'none';
+    }
+    if( eb_themer.completed_updates >= eb_themer.pending_updates ){
+      var example_event = eb_themer.get_event_theme();
+      eb.event_get({'id': update_details.event_id, 'display': 'custom_header,custom_footer' }, function(response){
+        if( response.event.custom_footer == example_event.custom_footer
+         && response.event.custom_header == example_event.custom_header){
+          eb_themer.show_next_steps();
+        }else{
+          var event_update_details = {'event_id': update_details.event_id };
+          if( response.event.custom_footer !== example_event.custom_footer ){
+            //Try updating the footer again...
+            event_update_details.custom_footer = example_event.custom_footer;
+          }else if( response.event.custom_header !== example_event.custom_header ){
+            //Try updating the header again...
+            event_update_details.custom_header = example_event.custom_header;
+          }
+          eb.event_update(event_update_details, eb_themer.check_theme_update( response, eb, event_update_details));
+        }
+      });
+    }
+  },
+  'show_next_steps': function(){
+    //print the final next_step info:
+    document.getElementById('update_in_progress' ).style.display = 'none';
+    document.getElementById('process_complete' ).style.display = 'block';
+    document.getElementById('progress_step_' + (step_x - 1) ).style.display = 'none';
   },
   'clone_event': function( example_event_id ){
     var example_event = eb_themer.get_event_theme( example_event_id );
