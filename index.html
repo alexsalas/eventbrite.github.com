@@ -159,7 +159,14 @@
             </a>
           </div>
           <div id="js-examples" class="accordion-body collapse" style="height: 0px; ">
-            <div class="accordion-inner"><a href='attendee-list-example.html'>Attendee list</a> <a href="http://jsfiddle.net/uc5W4/">(jsFiddle)</a>, <a href="http://jsfiddle.net/ryanj/zTyZz/">Search event list (jsFiddle)</a>, <a href="http://jsfiddle.net/ryanj/mDc7p/">Organizer event list (jsfiddle)</a>,  <a href='organizer-widget-example.html'>Organizer Event list</a>, <a href="http://eventbrite.github.com/oauth2-example.html">OAuth2 login widget</a>, <a href="http://eventbrite.github.com/javascript-examples.html">Eventbrite widgets</a>
+            <div class="accordion-inner">
+              <p><a href="http://eventbrite.github.com/examples.html">jQuery Mobile Demo</a></p>
+              <p><a href="http://jsfiddle.net/ryanj/zTyZz/">Search event list (jsFiddle)</a></p>
+              <p><a href="http://jsfiddle.net/ryanj/mDc7p/">Organizer event list (jsfiddle)</a></p>
+              <p><a href='attendee-list-example.html'>Attendee list</a> <a href="http://jsfiddle.net/uc5W4/">(jsFiddle)</a></p>
+              <p><a href='organizer-widget-example.html'>Organizer Event list</a></p>
+              <p><a href="http://eventbrite.github.com/oauth2-example.html">OAuth2 login widget</a></p>
+              <p><a href="http://eventbrite.github.com/javascript-examples.html">Eventbrite widgets</a></p>
             </div>
           </div>
         </div>
@@ -170,7 +177,11 @@
             </a>
           </div>
           <div id="php-examples" class="accordion-body collapse" style="height: 0px; ">
-            <div class="accordion-inner"><a href="https://github.com/ryanjarvinen/eventbrite.php/blob/master/examples/event-list-example.md">Event lists</a>, <a href="https://gist.github.com/1105464">Discount code recipe</a>, <a href="https://github.com/ryanjarvinen/eventbrite.php/blob/master/examples/oauth2-login-example.php">OAuth2 login widget</a>, <a href="https://github.com/ryanjarvinen/eventbrite.php/blob/master/examples/attendee-list-example.php">Attendee list example</a>
+            <div class="accordion-inner">
+              <p><a href="https://github.com/ryanjarvinen/eventbrite.php/blob/master/examples/event-list-example.md">Event lists</a></p>
+              <p><a href="https://gist.github.com/1105464">Discount code recipe</a></p>
+              <p><a href="https://github.com/ryanjarvinen/eventbrite.php/blob/master/examples/oauth2-login-example.php">OAuth2 login widget</a></p>
+              <p><a href="https://github.com/ryanjarvinen/eventbrite.php/blob/master/examples/attendee-list-example.php">Attendee list example</a></p>
             </div>
           </div>
         </div>
@@ -181,7 +192,7 @@
             </a>
           </div>
           <div id="python-examples" class="accordion-body collapse" style="height: 0px; ">
-            <div class="accordion-inner"><a href="https://github.com/nycresistor/Grab-Bag/tree/master/EventBriteGcalConnector">Eventbrite GCal connector</a></div>
+            <div class="accordion-inner"><p><a href="https://github.com/nycresistor/Grab-Bag/tree/master/EventBriteGcalConnector">Eventbrite GCal connector</a></p></div>
           </div>
         </div>
         <div class="accordion-group">
@@ -191,7 +202,7 @@
             </a>
           </div>
           <div id="ruby-examples" class="accordion-body collapse" style="height: 0px; ">
-            <div class="accordion-inner"><a href="https://gist.github.com/989893">Multi-event discount codes</a></div>
+            <div class="accordion-inner"><p><a href="https://gist.github.com/989893">Multi-event discount codes</a></p></div>
           </div>
         </div>
       </div>
@@ -205,22 +216,24 @@
       <div class="row">
         <div class="span4">
           <h3 id="wordpress">Wordpress</h3>
-          <p><a href="http://wordpress.org/extend/plugins/the-events-calendar/">Events Calendar on Wordpress</a><br/><a href="http://plugins.trac.wordpress.org/browser/the-events-calendar">Source Code</a></p>
+          <p><a href="http://wordpress.org/extend/plugins/the-events-calendar/">Events Calendar on Wordpress</a><br/><a href="http://plugins.trac.wordpress.org/browser/the-events-calendar">View Source</a></p>
   </p>
         </div>
         <div class="span4">
           <h3 id="drupal">Drupal</h3>
-          <p><a href="http://drupal.org/project/eventbrite">Eventbrite Drupal Module</a><br/><a href="http://drupalcode.org/project/eventbrite.git">Source Code</a></p>
+          <p><a href="http://drupal.org/project/eventbrite">Eventbrite Drupal Module</a><br/><a href="http://drupalcode.org/project/eventbrite.git">View Source</a></p>
         </div>
         <div class="span4">
-          <h3 id="radiant_cms">Radiant CMS</h3><p><a href="http://ext.radiantcms.org/extensions/265-eventbrite">Eventbrite extension for Radiant CMS</a><br/><a href="https://github.com/ihunter/eventbrite">Source Code</a></p>
+          <h3 id="radiant_cms">Radiant CMS</h3><p><a href="http://ext.radiantcms.org/extensions/265-eventbrite">Eventbrite extension for Radiant CMS</a><br/><a href="https://github.com/ihunter/eventbrite">View Source</a></p>
         </div>
       </div>
       <div class="alert alert-info"><strong>Note:</strong> These projects are community-maintained, grab a fork and dig in!</div>
     </div>
     
     <h2 id="announcements">Announcements</h2>
-    <div id='twitter_widget'>
+    <div class="twitter">
+      <!-- <p class="header"><a href="http://twitter.com/EventbriteAPI">@EventbriteAPI</a></p> -->
+      <div id='twitter-collapse'>
       <script src="http://widgets.twimg.com/j/2/widget.js"></script>
       <script>
         new TWTR.Widget({
@@ -252,6 +265,8 @@
           }
         }).render().setUser('EventbriteAPI').start();
       </script>
+      </div>
+      <div class="twtr-widget twtr-widget-profile" id="twitter_widget"></div>
     </div>
 
     <h2 id="comments">Comments</h2>
