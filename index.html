@@ -1,396 +1,305 @@
 <!DOCTYPE html> 
+<html lang="en">
 <head> 
-  <meta name="description" content="Eventbrite on GitHub - Open Source Projects powered by the Eventbrite API"/> 
+  <meta charset="utf-8">
+  <meta name="description" content="Eventbrite Open Source - Community projects, demos, and example scripts, powered by the Eventbrite API"/> 
   <meta name="keywords" content="eventbrite, github, API, events, git, open source, php, python, javascipt, ruby, .NET, dotnet, client, tickets, opensource, open-source, event management, registration, event, source, code, development, evented" /> 
   <meta name="robots" content="index, follow" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="ryan jarvinen, http://developer.eventbrite.com/">
+  <meta property="og:title" content="Eventbrite on GitHub" /> 
+  <meta property="og:type" content="website" /> 
+  <meta property="og:url" content="http://eventbrite.github.com" /> 
+  <meta property="og:image" content="http://evbdn.eventbrite.com/s3-s3/static/images/django/logos/eb-trans.png" /> 
+  <meta property="og:site_name" content="Eventbrite.GitHub.com" /> 
+  <meta property="og:description" content="Open Source Projects powered by the Eventbrite API"/>
+  <meta property="fb:admins" content="592922696263,10150145136260261"/>
+  <meta property="fb:app_id" content="28218816837"/>
 
-<link rel="shortcut icon" href="http://evbdn.eventbrite.com/s3-production/35362ce/django/images/icons/favicon.ico" /> 
+  <link href="http://eventbrite-s3.s3.amazonaws.com/static/images/developer/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
-<meta property="og:title" content="Eventbrite on GitHub" /> 
-<meta property="og:type" content="website" /> 
-<meta property="og:url" content="http://eventbrite.github.com" /> 
-<meta property="og:image" content="http://evbdn.eventbrite.com/s3-s3/static/images/django/logos/eb-trans.png" /> 
-<meta property="og:site_name" content="Eventbrite.GitHub.com" /> 
-<meta property="og:description" content="Open Source Projects powered by the Eventbrite API"/>
-<meta property="fb:admins" content="592922696263,10150145136260261"/>
-<meta property="fb:app_id" content="28218816837"/>
+  <!-- Le styles -->
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <style type="text/css">
+    body {
+      padding-top: 60px;
+      padding-bottom: 40px;
+    }
+    #logo {
+      float: left;
+      padding: 0px 0px 0px 100px;
+      margin: 0px 10px 0px 0px;
+      display: block;
+      height: 40px;
+      background: url(http://eventbrite-s3.s3.amazonaws.com/static/images/developer/eb_logo_sm-white.png) no-repeat left 3px;
+      color: white;
+      font-weight: 500;
+      line-height: 38px;
+    }
+  </style>
+  <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
+  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
 
-  <style> 
-body {
-  background-image: url("http://evbdn.eventbrite.com/s3-s3/eventlogos/5064690/logohead2.png");
-  background-repeat: no-repeat;
-  background-position: -550px top;
-  height: 100%;
-    font-family:Arial, Helvetica, sans-serif;
-    color: #666;
-  font-size:14px;
-}
- 
-h2 {
-    color: #005580;
-    padding-top:10px;
-}
-h1 {
-    margin-top:84px;
-    font-size:36px;
-    font-style:normal;
-    font-weight:200;
-    margin-bottom:0px;
-}
-a {
-   color: #E60;
-   text-decoration:none;
-}
-a:hover {
-   color: #005580;
-   text-decoration:underline;
-}
-#nav{
-   top: 90px;
-text-align:left;
-margin-right: 90%;
-margin-left: 15px;
-padding-left: 11px;
-position: fixed;
-background-color: rgba(230, 230, 230, 0.7);
--webkit-border-radius: 12px;
--moz-border-radius: 12px;
-border-radius: 12px;
-border: 2px solid #AAA; 
-width:98px;
-font-size:smaller;
-}
-ul{
-list-style:none;
-padding-left:0px;
-margin-left:0px;
-}
-#nav ul li{
-  padding-bottom:2px;
-}
-#nav ul ul{
-padding-left:15px;
-margin-left:0px;
-}
-.projects_ul{padding-left:20px;}
-
-#page{
-    text-align:left;
-width: 700px;
-margin-right: auto;
-margin-left: 150px;
-margin-top: 50px;
-margin-bottom: 50px;
-}
- 
-pre{
-text-align: left;
-display: block;
-overflow: auto;
-font: 500 1em/1.5em 'Lucida Console', 'courier new', monospace;
-background: #FAFAFA;
-border: 1px solid #F2F2F2;
-border-left: 4px solid #F96;
-margin: 5px 0 10px 20px;
-padding: 10px;
-}
-code{
-text-align: left;
-display: block;
-overflow: auto;
-font: 500 1em/1.5em 'Lucida Console', 'courier new', monospace;
-background: #FAFAFA;
-border: 1px solid #F2F2F2;
-border-left: 4px solid #F96;
-margin: 5px 0 10px 20px;
-padding: 10px;
-}
-
-#dashboardtitle {
-    width: 980px;
-    position: static;
-    top: 80px;
-    margin:auto auto;
-}
- 
-#subhead1 {
-    width: 980px;
-    position:static;
-    top: 120px;
-    margin:auto;
-    text-align: left;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: medium;
-    font-style: normal;
-    line-height: 18px;
-    font-weight: bolder;
-    color: #000;
-    display: block;
-    padding-bottom: 0px;
-    padding-top: 5px;
-}
- 
-#subhead2 {
-    width: 325px;
-    float:left
-    position: relative;
-    top: 160px;
-    margin:auto;
-    text-align: left;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: medium;
-    font-style: normal;
-    line-height: 18px;
-    font-weight: bolder;
-    color: #000;
-    display: block;
-    padding-bottom: 0px;
-    padding-top: 5px;
-    padding-left:5px;
-    padding-right:5px;
-}
- 
- 
-#ntfrow {
-    width: 980px;
-    position:static;
-    top: 140px;
-    margin:auto;
-    text-align: left;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: medium;
-    font-style: normal;
-    line-height: 18px;
-    font-weight: normal;
-    color: #F60;
-    display: block;
-    background-image: url(http://evbdn.eventbrite.com/s3-s3/eventlogos/5064690/repxtwocolors.png);
-    background-repeat: repeat-x;
-    background-position: center top;
-    border-top-width: 7px;
-    border-top-style: solid;
-    border-top-color: #ff7f00;
-    height: 65px;
-    padding-top: 1px;
-    padding-bottom: 5px;
-}
- 
-#topmain {
-    background-color: #FFFFFF;
-    font-size: large;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    top: 60px;
-    width: 990px;
-height:100%
-}
-#subtext{
-    font-style: italic;
-}
-.highlight{
-    font-weight:bold;
-    color: #005580;
-}
-.best_list{list-style-type: disc; margin-left:30px;}
-.best_list li{ margin-bottom:10px; }
- 
-</style> 
-  <script src="http://code.jquery.com/jquery-1.6.1.js"></script> 
-  <script src="js/jquery.scrollTo.js"></script>
-  <script src="js/jquery.localscroll.js"></script>
-  <title>Eventbrite on GitHub</title>
+  <title>Eventbrite Open Source</title>
 </head> 
-<body> 
-  <center> 
+<body data-spy="scroll" data-offset="50"> 
   <nav>
-  <div id="nav"> 
-    <ul>
-        <li> <a href="#overview">Overview</a> </li>
-        <li> <a href="#resources">Resources</a> </li>
-        <li> <a href="#libraries">Libraries</a> 
-          <ul>
-            <li><a href="#javascript">Javascript</a></li>
-            <li><a href="#php">PHP</a></li>
-            <li><a href="#ruby">Ruby</a></li>
-            <li><a href="#python">Python</a></li>
-            <li><a href="#dotnet">.NET</a></li>
-          </ul>
-        </li>
-        <li> <a href="#examples">Examples</a> </li>
-        <li> <a href="#projects">Projects</a> 
-          <ul>
-            <li><a href="#wordpress">Wordpress</a></li>
-            <li><a href="#drupal">Drupal</a></li>
-          </ul>
-        </li>
-        <li> <a href="#best_practices" style="white-space:nowrap;">Best Practices</a> </li>
-        <li> <a href="#announcements" style="white-space:nowrap;">Announcements</a> </li>
-        <li> <a href="#discussion" style="white-space:nowrap;">Discussion</a> </li>
-    </ul>
-  </div>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a id="logo" title="Home" class="brand pull-left" href="#">Open Source</a>
+          <div class="nav-collapse in collapse" style="height: auto; ">
+            <ul class="nav">
+              <li> <a href="#libraries">API Clients</a> </li>
+              <li> <a href="#examples">Examples</a> </li>
+              <li> <a href="#projects">Projects</a> </li>
+            </ul>
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Community<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a target="_blank" href="http://eventbrite.appstores.com/">Application Showcase</a></li>
+                  <li><a href="http://developer.eventbrite.com/discussion/">StackOverflow</a></li>
+                  <li><a href="#announcements" style="white-space:nowrap;">Announcements</a> </li>
+                  <li class="divider"></li>
+                  <li><a href="http://developer.eventbrite.com/contact-us/">Contact Us</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="http://developer.eventbrite.com/">API Documentation<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="http://developer.eventbrite.com/doc/getting-started">Getting Started</a></li>
+                  <li><a href="http://developer.eventbrite.com/doc/authentication/">Authentication</a></li>
+                  <li><a href="http://developer.eventbrite.com/doc/#methods">API Methods</a></li>
+                  <li class="divider"></li>
+                  <li><a href="http://developer.eventbrite.com/terms">Terms of Use</a></li>
+                  <li><a href="http://developer.eventbrite.com/terms/branding">Branding Guidelines</a></li>
+                </ul>
+              </li>
+              <li class="divider-vertical"></li>
+              <li class="dropdown">
+                <a class="dropdown-toggle account_name" data-toggle="dropdown" href="#">My Account<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a target="_blank" href="http://eventbrite.com/myevents">My Events</a></li>
+                  <li><a target="_blank" href="http://eventbrite.com/api/key">Application Keys</a></li>
+                  <li><a target="_blank" href="http://eventbrite.com/userkeyapi/">User Key</a></li>
+                  <li class="divider"></li>
+                  <li><a class="account_status_toggle" href="#" onclick="Eventbrite.prototype.utils.logout('EHHWMU473LTVEO4JFY');return false;">Login</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
   </nav> 
-  <div id="page"> 
-    <h1>Eventbrite on GitHub</h1>
-    <span id="subtext">Open Source Projects powered by the Eventbrite API</span>
-    <hr/>
-    <h2 id="overview">Overview</h2>
-    <div>
-      <p>Eventbrite is the leading web-based solution for creating, managing, and promoting local events.  Whether you are interested in adding robust event management features to your existing site, or in building a portal to show the world what exciting things are happening all around them - the Eventbrite API can be your source for extrememly rich and relevant local data.</p> 
-      <p>This page provides information for developers who are interested in interacting with the Eventbrite API.  <b><i>Not all of the code listed here is maintained or supported by Eventbrite.</i></b>  Many of these projects are maintained by a community of 3rd party developers who would probably appreciate your help.  So, grab a fork and dig in!</p>
+
+  <div class="container"> 
+    <div class="hero-unit">
+      <h1>Eventbrite Open Source</h1>
+      <p>Open Source Projects powered by the Eventbrite API</p>
     </div>
 
-    <h2 id="resources">Developer Resources</h2>
+    <h2 id="libraries">API Client Libraries</h2>
     <div>
-      <p>The <a href="http://developer.eventbrite.com/doc/getting-started/">Getting-Started Guide</a> on <a href="http://developer.eventbrite.com">developer.eventbrite.com</a> is a great introduction to the Eventbrite API basics.  There, you can find more information about our <a href="http://developer.eventbrite.com/doc/auth/">authentication requirements</a>, request limits, and read through our <a href="http://developer.eventbrite.com/doc">API method documentation</a>.</p>
-      <p>If you still can't find what you are looking for, the <a href="http://developer.Eventbrite.com/forums/">Eventbrite developer forums</a> contain many useful peices of information.  And, you can always contact <a href="http://developer.eventbrite.com/contact-us/">Eventbrite Developer Relations</a> with questions.</p>
-    </div>
-
-    <h2 id="libraries">Open Source Libraries and API Clients</h2>
-    <div>
-      <p>The following client libraries are excellent resources to help make Eventbrite integration quick and painless.  Most web programming languages already have an API client available.  Is your language of choice missing from the list?  Let us know!</p> 
-      <ul class="projects_ul">
-        <li>
-          <p><span id="javascript" class="highlight">Javascript</span> - <a href="http://github.com/ryanjarvinen/Eventbrite.jquery.js">Eventbrite.jquery.js</a>, <a href="http://github.com/ryanjarvinen/eventbrite.npm">eventbrite.npm</a></p>
-        </li>
-        <li>
-          <p><span id="php" class="highlight">PHP</span> - <a href="http://github.com/ryanjarvinen/eventbrite.php">eventbrite.php</a>, <a href="http://github.com/shiflett/eventbrite">eventbrite</a> </p>
-        </li>
-        <li>
-          <p><span id="ruby" class="highlight">Ruby</span> - <a href="https://github.com/ryanjarvinen/eventbrite-client.rb">eventbrite-client.rb</a>, <a href="https://github.com/therabidbanana/eventbrite">Eventbrite.rb</a></p>
-        </li>
-        <li>
-          <p><span id="python" class="highlight">Python</span> - <a href="https://github.com/eventbrite/eventbrite-client-py">eventbrite.py</a></p>
-        </li>
-        <li>
-          <p><span id="dotnet" class="highlight">.NET</span> - <a href="https://github.com/penguinboy/Eventbrite.NET">Eventbrite.NET</a> </p>
-        </li>
-      </ul>
-    </div>
-
-    <h2 id="examples">Example Scripts</h2>
-    <div>
-      <p>These example scripts are here to illustrate a few simple API use-cases.  You can read through them to learn about the API, run them manually to carry out specific tasks, or mix them into a larger application that will help assist with event management automation.</p>
-      <ul class="projects_ul">
-        <li id="js-examples" >
-          <p><span class='highlight'>Javascript Examples</span> - <a href='attendee-list-example.html'>Attendee list</a> <a href="http://jsfiddle.net/uc5W4/">(jsFiddle)</a>, <a href="http://jsfiddle.net/ryanj/zTyZz/">Search event list (jsFiddle)</a>, <a href="http://jsfiddle.net/ryanj/mDc7p/">Organizer event list (jsfiddle)</a>,  <a href='organizer-widget-example.html'>Organizer Event list</a>, <a href="http://eventbrite.github.com/oauth2-example.html">OAuth2 login widget</a>, <a href="http://eventbrite.github.com/javascript-examples.html">Eventbrite widgets</a></p>
-        </li>
-        <li id="php-examples">
-          <p><span class='highlight'>PHP Examples</span> - <a href="https://github.com/ryanjarvinen/eventbrite.php/blob/master/examples/event-list-example.md">Event lists</a>, <a href="https://gist.github.com/1105464">Discount code recipe</a>, <a href="https://github.com/ryanjarvinen/eventbrite.php/blob/master/examples/oauth2-login-example.php">OAuth2 login widget</a>, <a href="https://github.com/ryanjarvinen/eventbrite.php/blob/master/examples/attendee-list-example.php">Attendee list example</a></p>
-        </li>
-        <li id="python-examples">
-          <p><span class='highlight'>Python Examples</span> - <a href="https://github.com/nycresistor/Grab-Bag/tree/master/EventBriteGcalConnector">Eventbrite GCal connector</a></p>
-        </li>
-        <li id="ruby-examples">
-          <p><span class='highlight'>Ruby Examples</span> - <a href="https://gist.github.com/989893">Multi-event discount codes</a></p>
-        </li>
-      </ul>
-    </div>
-
-    <h2 id="projects">Open Source plugins and other projects</h2>
-    <div>
-      <p>Looking for something a little more high-level?  A lot of great application plugins are also available.  Take a look at the <a href="http://developer.eventbrite.com/showcase/">Eventbrite App Showcase</a> to see if an existing plugin or project meets your needs.  The following projects are open source:</p>
-      <ul class="projects_ul">
-        <li>
-          <p id="wordpress"><span class="highlight">Wordpress</span> - <a href="http://wordpress.org/extend/plugins/the-events-calendar/">Events Calendar on Wordpress</a> <a href="http://plugins.trac.wordpress.org/browser/the-events-calendar">[code]</a> 
-</p>
-        </li>
-        <li>
-          <p id="drupal"><span class="highlight">Drupal</span> - <a href="http://drupal.org/project/eventbrite">Eventbrite Drupal Module</a> <a href="http://drupalcode.org/project/eventbrite.git">[code]</a></p>
-        </li>
-        <li>
-          <p id="radiant_cms"><span class="highlight">Radiant CMS</span> - <a href="http://ext.radiantcms.org/extensions/265-eventbrite">Eventbrite extension for Radiant CMS</a> <a href="https://github.com/ihunter/eventbrite">[code]</a></p>
-        </li>
-      </ul>
+      <p>Make your Eventbrite integration work quick and painless with native language support for each of our <a href="http://developer.eventbrite.com/doc/#methods">API methods</a>.</p>
+      <div class="row">
+        <div class="span12">
+        <div class="row">
+          <div class="span4">
+            <h3 id="javascript">Javascript</h3>
+            <p><a href="http://github.com/ryanjarvinen/Eventbrite.jquery.js">Eventbrite.jquery.js</a><br/><a href="http://github.com/ryanjarvinen/eventbrite.npm">eventbrite.npm</a></p>
+          </div>
+          <div class="span4">
+            <h3 id="php">PHP</h3>
+            <p><a href="http://github.com/ryanjarvinen/eventbrite.php">eventbrite.php</a></p>
+          </div>
+          <div class="span4">
+            <h3 id="python">Python</h3>
+            <p><a href="https://github.com/eventbrite/eventbrite-client-py">eventbrite.py</a></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="span4">
+            <h3 id="ruby">Ruby</h3>
+            <p><a href="https://github.com/ryanjarvinen/eventbrite-client.rb">eventbrite-client.rb</a><br/><a href="https://github.com/therabidbanana/eventbrite">Eventbrite.rb</a></p>
+          </div>
+          <div class="span4">
+            <h3 id="dotnet">.NET</h3>
+            <p><a href="https://github.com/penguinboy/Eventbrite.NET">Eventbrite.NET</a> </p>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="alert alert-info"><strong>Note:</strong> Let us know if your language of choice missing from our list!</div> 
     </div>
     
-    <h2 id="best_practices">Best Practices</h2>
+    <h2 id="examples">Example Scripts and Demos</h2>
     <div>
-      <p>If you are working on an open-source Eventbrite API client, please keep the following best practices in mind as you build:
-        <ul class="best_list">
-          <li>Consider including documentation and usage examples - Great documentation can really help developers understand how you intend for your client code to be used.</li>
-          <li>Client functions that are named after API calls, and that directly generate API requests, should allow parameters to be passed by name or as key-value pairs whenever possible.  The parameters should also be automatically urlencoded for your users.  This best-practice should help ensure that users can refer to the <a href="http://developer.eventbrite.com/doc">Eventbrite API docs</a> for information about the expected use of these functions.</li>
-          <li>API request parameters should be automatically urlencoded.  This is one of the most common sources of errors when dealing with the API.  You can save your users a lot of time and needless frustration by ensuring that their requests are properly urlencoded before being sent.</li>
-          <li>Consider support for caching - Even though support for caching storage may vary per system, consider adding some optional support for this feature.  It can greatly accelerate your application's response time, and help keep your request volume within Eventbrite's usage limits (default is 1000 requests per day).</li>
-        </ul>
-      </p>
-      <p>If you are planning to use Eventbrite data in an application, please take a look at our <a href="http://developer.eventbrite.com/news/branding/">branding guidelines</a> and other 3rd party application requirements.</p>
-      <p>Developers using the Eventbrite API should review the <a href="http://developer.eventbrite.com/terms/">API terms of service</a>. By using the Eventbrite API, you are obligated to comply to the terms. </p>
-   </div>
-<h2 id="announcements">Announcements</h2>
-<div id='twitter_widget' style='width:700px;'>
-<script src="http://widgets.twimg.com/j/2/widget.js"></script>
-<script>
-new TWTR.Widget({
-  version: 2,
-  type: 'profile',
-  rpp: 4,
-  interval: 30000,
-  width: 'auto',
-  height: 300,
-  theme: {
-    shell: {
-      background: '#005580',
-      color: '#ffffff'
-    },
-    tweets: {
-      background: '#ffffff',
-      color: '#666666',
-      links: '#ee6700'
-    }
-  },
-  features: {
-    scrollbar: false,
-    loop: false,
-    live: false,
-    hashtags: true,
-    timestamp: true,
-    avatars: true,
-    behavior: 'all'
-  }
-}).render().setUser('EventbriteAPI').start();
-</script>
-</div>
-<h2 id="discussion">Discussion</h2>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'eventbrite-opensource'; // required: replace example with your forum shortname
+      <p>Our favorite demos and examples scripts are listed here.  Some are useful for automation, while others can help you mix event management features into larger applications.</p>
+      <div class="accordion" id="language_examples">
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#language_examples" href="#js-examples">
+              <strong>Javascript Examples</strong>
+            </a>
+          </div>
+          <div id="js-examples" class="accordion-body collapse" style="height: 0px; ">
+            <div class="accordion-inner"><a href='attendee-list-example.html'>Attendee list</a> <a href="http://jsfiddle.net/uc5W4/">(jsFiddle)</a>, <a href="http://jsfiddle.net/ryanj/zTyZz/">Search event list (jsFiddle)</a>, <a href="http://jsfiddle.net/ryanj/mDc7p/">Organizer event list (jsfiddle)</a>,  <a href='organizer-widget-example.html'>Organizer Event list</a>, <a href="http://eventbrite.github.com/oauth2-example.html">OAuth2 login widget</a>, <a href="http://eventbrite.github.com/javascript-examples.html">Eventbrite widgets</a>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#language_examples" href="#php-examples">
+              <strong>PHP Examples</strong>
+            </a>
+          </div>
+          <div id="php-examples" class="accordion-body collapse" style="height: 0px; ">
+            <div class="accordion-inner"><a href="https://github.com/ryanjarvinen/eventbrite.php/blob/master/examples/event-list-example.md">Event lists</a>, <a href="https://gist.github.com/1105464">Discount code recipe</a>, <a href="https://github.com/ryanjarvinen/eventbrite.php/blob/master/examples/oauth2-login-example.php">OAuth2 login widget</a>, <a href="https://github.com/ryanjarvinen/eventbrite.php/blob/master/examples/attendee-list-example.php">Attendee list example</a>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#language_examples" href="#python-examples">
+              <strong>Python Examples</strong>
+            </a>
+          </div>
+          <div id="python-examples" class="accordion-body collapse" style="height: 0px; ">
+            <div class="accordion-inner"><a href="https://github.com/nycresistor/Grab-Bag/tree/master/EventBriteGcalConnector">Eventbrite GCal connector</a></div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#language_examples" href="#ruby-examples">
+              <strong>Ruby Examples</strong>
+            </a>
+          </div>
+          <div id="ruby-examples" class="accordion-body collapse" style="height: 0px; ">
+            <div class="accordion-inner"><a href="https://gist.github.com/989893">Multi-event discount codes</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-info"><strong>Note:</strong> Share your example scripts and demos!</div>
+    </div>
 
-    // var disqus_identifier = 'unique_dynamic_id_1234';
-    var disqus_url = 'http://eventbrite.github.com';
+    <h2 id="projects">Project Integrations</h2>
+    <div>
+      <p>Visit our <a href="http://developer.eventbrite.com/showcase/">Application Showcase</a> to see a list of thrid-party apps and partnerships.</p>
+      <p>Open Source Plugins, Modules, and Add-ons are listed here:</p>
+      <div class="row">
+        <div class="span4">
+          <h3 id="wordpress">Wordpress</h3>
+          <p><a href="http://wordpress.org/extend/plugins/the-events-calendar/">Events Calendar on Wordpress</a><br/><a href="http://plugins.trac.wordpress.org/browser/the-events-calendar">Source Code</a></p>
+  </p>
+        </div>
+        <div class="span4">
+          <h3 id="drupal">Drupal</h3>
+          <p><a href="http://drupal.org/project/eventbrite">Eventbrite Drupal Module</a><br/><a href="http://drupalcode.org/project/eventbrite.git">Source Code</a></p>
+        </div>
+        <div class="span4">
+          <h3 id="radiant_cms">Radiant CMS</h3><p><a href="http://ext.radiantcms.org/extensions/265-eventbrite">Eventbrite extension for Radiant CMS</a><br/><a href="https://github.com/ihunter/eventbrite">Source Code</a></p>
+        </div>
+      </div>
+      <div class="alert alert-info"><strong>Note:</strong> These projects are community-maintained, grab a fork and dig in!</div>
+    </div>
+    
+    <h2 id="announcements">Announcements</h2>
+    <div id='twitter_widget'>
+      <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+      <script>
+        new TWTR.Widget({
+          version: 2,
+          type: 'profile',
+          rpp: 10,
+          interval: 30000,
+          width: 'auto',
+          height: 300,
+          theme: {
+            shell: {
+              background: '#333333',
+              color: '#FFFFFF'
+            },
+            tweets: {
+              background: '#ffffff',
+              color: '#333333',
+              links: '#0F90BA'
+            }
+          },
+          features: {
+            scrollbar: false,
+            loop: false,
+            live: false,
+            hashtags: true,
+            timestamp: true,
+            avatars: true,
+            behavior: 'all'
+          }
+        }).render().setUser('EventbriteAPI').start();
+      </script>
+    </div>
 
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-
+    <h2 id="comments">Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname = 'eventbrite-opensource'; // required: replace example with your forum shortname
+  
+      // var disqus_identifier = 'unique_dynamic_id_1234';
+      var disqus_url = 'http://eventbrite.github.com';
+  
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+  
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <p>
+      <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    </p>
   </div> 
-  <div id="footer"></div>
-</center>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> 
+  <!-- <script src="js/jquery.scrollTo.js"></script> -->
+  <!-- <script src="js/jquery.localscroll.js"></script> -->
+  <script src="https://raw.github.com/ryanjarvinen/Eventbrite.jquery.js/master/Eventbrite.jquery.js"></script>
+  <script src="js/bootstrap-transition.js"></script>
+  <script src="js/bootstrap-alert.js"></script>
+  <script src="js/bootstrap-modal.js"></script>
+  <script src="js/bootstrap-collapse.js"></script>
+  <script src="js/bootstrap-dropdown.js"></script>
+  <script src="js/bootstrap-scrollspy.js"></script>
+  <script src="js/application.js"></script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-141520-1']);
+    _gaq.push(['_setDomainName', 'eventbrite.github.com']);
+    _gaq.push(['_setAllowLinker', true]);
+    _gaq.push(['_trackPageview']);
+  
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  
+  </script>
+  <script>
+    $(function() {
+      // on $(document).ready() ...
+      // $.localScroll({hash:true});
+    });
+  </script>
 </body> 
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-141520-1']);
-  _gaq.push(['_setDomainName', 'eventbrite.github.com']);
-  _gaq.push(['_setAllowLinker', true]);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
-<script>
-  $(function() {
-    // on $(document).ready() ...
-    $.localScroll({hash:true});
-  });
-</script>
+</html>
