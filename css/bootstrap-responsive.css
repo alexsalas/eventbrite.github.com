@@ -95,7 +95,7 @@
 @media (max-width: 480px) {
   .navbar-fixed-top {
     position: static;
-    margin-bottom: 18px;
+    margin-bottom: 0px;
   }
   .nav-collapse {
     -webkit-transform: translate3d(0, 0, 0);
@@ -693,7 +693,7 @@
     padding-top: 0;
   }
   .navbar-fixed-top {
-    margin-bottom: 18px;
+    margin-bottom: 0px;
   }
   .navbar-fixed-top .navbar-inner {
     padding: 5px 31px 5px 31px;
