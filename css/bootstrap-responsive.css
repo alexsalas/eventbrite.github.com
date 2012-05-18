@@ -60,8 +60,9 @@
 @media (max-width: 767px) {
   .navbar-fixed-top {
     position: static;
-    margin-bottom: 18px;
+    margin-bottom: 0px;
   }
+  #main { margin-top:0px;}
   .visible-phone {
     display: inherit !important;
   }
