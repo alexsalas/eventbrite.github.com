@@ -43,9 +43,9 @@
       if( strings['user_email'] !== undefined){
         if( strings['user_name'] !== undefined && !strings['user_name'].match(/undefined/)) {
           //update user name
-          $('.account_name').html(strings['user_name']);
+          $('.account_name').html(strings['user_name'] + "<b class='caret'>");
         }else{
-          $('.account_name').html(strings['user_email']);
+          $('.account_name').html(strings['user_email']+ "<b class='caret'>"");
         }
         //update "login" button label / action
         $('.account_status_toggle').html('Logout').attr('href', '#').attr('onclick', "Eventbrite.prototype.utils.logout('"+my_api_key+"');return false;");
