@@ -38,9 +38,19 @@
       line-height: 38px;
     }
     //body { margin: 0; font-size: 13px;line-height: 18px; background:transparent url(/wp-content/themes/eventbrite/img/layout/bg-grey-repeat.png) 0 0 repeat; padding:0; font-family: "omnes-pro", "Helvetica Neue", Helvetica, Arial, sans-serif;}
-    body { font-size: 13px;line-height: 18px; background:transparent url(/wp-content/themes/eventbrite/img/layout/bg-grey-repeat.png) 0 0 repeat; padding:0; font-family: "omnes-pro", "Helvetica Neue", Helvetica, Arial, sans-serif;}
+    body { font-size: 13px;line-height: 18px; background:transparent url(http://developer.eventbrite.com/wp-content/themes/eventbrite/img/layout/bg-grey-repeat.png) 0 0 repeat; padding:0; font-family: "omnes-pro", "Helvetica Neue", Helvetica, Arial, sans-serif;}
     body, button, input, select, textarea, p { color: #666; font-family: "omnes-pro", "Helvetica Neue", Helvetica, Arial, sans-serif;}
     h1, h2, h3, h4, h5 { color: #333; font-family: "omnes-pro", "Helvetica Neue", Helvetica, Arial, sans-serif; font-style: italic; }
+    #main {
+      margin: 55px auto 20px auto;
+      padding: 7px 20px 10px 20px;
+      overflow: hidden;
+      background-color: white;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      border: 1px solid #DEDEDE;
+    }
   </style>
   <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -56,13 +66,13 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
+          <a id="logo" title="Home" class="brand pull-left" href="#">Open Source</a>
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a id="logo" title="Home" class="brand pull-left" href="#">Open Source</a>
-          <div class="nav-collapse in collapse" style="height: auto; ">
+          <div class="nav-collapse">
             <ul class="nav">
               <li> <a href="#libraries">API Clients</a> </li>
               <li> <a href="#examples">Examples</a> </li>
@@ -108,7 +118,7 @@
     </div>
   </nav> 
 
-  <div class="container"> 
+  <div id="main" class="container"> 
     <div class="hero-unit">
       <h1>Eventbrite Open Source</h1>
       <p>Open Source Projects powered by the Eventbrite API</p>

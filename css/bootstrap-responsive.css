@@ -58,6 +58,10 @@
 }
 
 @media (max-width: 767px) {
+  .navbar-fixed-top {
+    position: static;
+    margin-bottom: 18px;
+  }
   .visible-phone {
     display: inherit !important;
   }
@@ -88,6 +92,10 @@
 }
 
 @media (max-width: 480px) {
+  .navbar-fixed-top {
+    position: static;
+    margin-bottom: 18px;
+  }
   .nav-collapse {
     -webkit-transform: translate3d(0, 0, 0);
   }
@@ -137,8 +145,8 @@
 
 @media (max-width: 767px) {
   body {
-    padding-right: 20px;
-    padding-left: 20px;
+    padding-right: 0px;
+    padding-left: 0px;
   }
   .navbar-fixed-top,
   .navbar-fixed-bottom {
@@ -684,11 +692,10 @@
     padding-top: 0;
   }
   .navbar-fixed-top {
-    position: static;
     margin-bottom: 18px;
   }
   .navbar-fixed-top .navbar-inner {
-    padding: 5px;
+    padding: 5px 31px 5px 31px;
   }
   .navbar .container {
     width: auto;
