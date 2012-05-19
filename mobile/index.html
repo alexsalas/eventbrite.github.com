@@ -72,7 +72,7 @@
             if(response['events'] !== undefined){
               eb_events = response.events;
               var num = response.events.length;
-              var evnt_list = ['<ul data-role="listview" data-filter="true" data-theme="c">'];
+              var evnt_list = ['<ul data-role="listview" data-inset="true" data-filter="true" data-theme="c">'];
               for(var x = 0; x < num; x +=1){
                 evnt_list.push('<li><a href="' + response.events[x]['event'].url + '">' + response.events[x]['event'].title + '</a></li>'); 
               }
@@ -86,7 +86,7 @@
             var organizers_html = '<div>No organizer accounts were found for this user</div>';
             if(response['organizers'] !== undefined){
               var num = response.organizers.length;
-              var organizer_list = ['<ul data-role="listview" data-theme="c">'];
+              var organizer_list = ['<ul data-role="listview" data-inset="true" data-filter="true" data-theme="c">'];
               var org = {};
               for(var x = 0; x < num; x +=1){
                 org = response.organizers[x]['organizer'];
