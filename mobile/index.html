@@ -62,13 +62,19 @@
           }
         }else if( u.hash.search( /^#tickets/) !== -1 ){
           console.log("TicketS");
-          if( document.getElementById('myevents').innerHTML === ""){
+          if( document.getElementById('mytickets').innerHTML === ""){
             $.mobile.showPageLoadingMsg("a", "loading your tickets");
           }
         }else if( u.hash.search(  /^#search/ ) !== -1 ){
           console.log("SEARCH");
+          if( document.getElementById('searchevents').innerHTML === ""){
+            $.mobile.showPageLoadingMsg("a", "loading events near you");
+          }
         }else if( u.hash.search( /^#account/ ) !== -1 ){
           console.log("ACCOUNT");
+          if( document.getElementById('user_info').style.display == "none"){
+            $.mobile.showPageLoadingMsg("a", "verifying your account");
+          }
         }
       });
 
@@ -82,6 +88,9 @@
       $.extend(  $.mobile , {
         loadingMessageTextVisible: true,
         pullMyEvents: function(){
+          if(window.location.hash === "#events"){
+            $.mobile.showPageLoadingMsg("a", "refreshing your event list");
+          }
           //Pre-load some page content, this client will default to using the Eventbrite
           //  OAuth token located in localStorage if no other init parameters are supplied
           Eventbrite(function(eb){
@@ -126,7 +135,7 @@
               var tickets_html = '<div>No tickets were found for this user</div>';
               if(response['user_tickets'] !== undefined){
                 var num = response.user_tickets[1].orders.length;
-                var ticket_list = ['<ul data-role="listview" data-theme="c">'];
+                var ticket_list = ['<ul data-role="listview" data-inset="true" data-filter="true" data-theme="c">'];
                 var tckt = {};
                 for(var x = 0; x < num; x +=1){
                   tckt = response.user_tickets[1].orders[x]['order'];
@@ -146,6 +155,9 @@
           }
         },
         pullMyProfiles: function(){
+          if(window.location.hash === "#organizers"){
+            $.mobile.showPageLoadingMsg("a", "refreshing your profile list");
+          }
           //Pre-load some page content, this client will default to using the Eventbrite
           //  OAuth token located in localStorage if no other init parameters are supplied
           Eventbrite(function(eb){
@@ -160,6 +172,9 @@
           }
         },
         pullMyTickets: function(){
+          if(window.location.hash === "#tickets"){
+            $.mobile.showPageLoadingMsg("a", "refreshing your ticket list");
+          }
           //Pre-load some page content, this client will default to using the Eventbrite
           //  OAuth token located in localStorage if no other init parameters are supplied
           Eventbrite(function(eb){
@@ -185,7 +200,6 @@
         loadMyAccount: function(strings){
           // Place the resulting Eventbrite login widget code somewhere on your page.
           // This example places the content into an element marked with class="eb_login_box"
-          $(".eb_login_loading").hide();
           if( strings['user_name']   !== undefined &&
             strings['user_email']  !== undefined ){
             $(".eb_user_name").html(strings.user_name);
@@ -209,6 +223,9 @@
             $('.eb_user_info').hide();
             $('.eb_login_btn').show();
           });  
+          if(document.location.hash === '#account'){
+            $.mobile.hidePageLoadingMsg();
+          }
         },
         initEventSearch: function(){
         },
@@ -246,16 +263,16 @@
 
 <div id="home" data-role="page" data-dom-cache="true">
     <div data-role="header">
-        <h1>Eventbrite API Tools</h1>
+        <h1>Eventbrite jQuery Mobile Demo</h1>
         <a href="#setup" data-icon="gear" data-rel="dialog" class="ui-btn-right">Setup</a>
     </div><!-- /header -->
     <div data-role="content">   
         <ul data-role="listview" data-inset="true">
-            <li><a href="#events">Events</a></li>
-            <li><a href="#organizers">Organizer Profiles</a></li>
-            <li><a href="#tickets">Tickets</a></li>
-            <li><a href="#account">Account</a></li>
             <li data-icon="search"><a href="#search">Find Events</a></li>
+            <li data-icon="check"><a href="#tickets">My Tickets</a></li>
+            <li data-icon="grid"><a href="#events">My Events</a></li>
+            <li data-icon="star"><a href="#organizers">My Organizer Profiles</a></li>
+            <li data-icon="gear"><a href="#account">Account</a></li>
         </ul>
     </div>
     <div style='text-align:right;' data-role="footer" data-theme="d">
@@ -267,6 +284,7 @@
     <div data-iconpos="right" data-role="header">
         <a href="#home" data-rel="back" data-direction="reverse" data-role="button" data-theme="b" data-icon='arrow-l'>Back</a>
         <h1>My Events</h1>
+        <a href="#events" data-role="button" data-theme="b" data-icon='refresh' data-iconpos="right" onclick="$.mobile.pullMyEvents()">Reload</a>
     </div><!-- /header -->
     <div id='myevents' data-role="content"></div><!-- /content -->
 </div><!-- /page -->
@@ -275,6 +293,7 @@
     <div data-iconpos="right" data-role="header">
         <a href="#home" data-rel="back" data-direction="reverse" data-role="button" data-theme="b" data-icon='arrow-l'>Back</a>
         <h1>My Organizer Profiles</h1>
+        <a href="#organizers" data-role="button" data-theme="b" data-icon='refresh' data-iconpos="right" onclick="$.mobile.pullMyProfiles()">Reload</a>
     </div><!-- /header -->
     <div id='myprofiles' data-role="content"></div><!-- /content -->
 </div><!-- /page -->
@@ -283,6 +302,7 @@
     <div data-iconpos="right" data-role="header">
         <a href="#home" data-rel="back" data-direction="reverse" data-role="button" data-theme="b" data-icon='arrow-l'>Back</a>
         <h1>My Tickets</h1>
+        <a href="#tickets" data-role="button" data-theme="b" data-icon='refresh' data-iconpos="right" onclick="$.mobile.pullMyTickets()">Reload</a>
     </div><!-- /header -->
     <div id='mytickets' data-role="content"></div><!-- /content -->
 </div><!-- /page -->
@@ -294,7 +314,6 @@
     <div data-role="content">   
       <div class='ui-body ui-body-c eb_login_box'>
         <div class='eb_login_widget'>
-          <div class='eb_login_loading'><span class=''></span></div>
           <div class='eb_user_info' style='display:none;'>
             <p>
               <span class='eb_user_name'>Anonymous</span><br/>
@@ -321,8 +340,7 @@
     <div data-role="content">   
       <div class='ui-body ui-body-c eb_login_box'>
         <div class='eb_login_widget'>
-          <div class='eb_login_loading'> Loading...  </div>
-          <div class='eb_user_info' style='display:none;'>
+          <div id='user_info' class='eb_user_info' style='display:none;'>
             <p>
               <span class='eb_user_name'>Anonymous</span><br/>
               <span class='eb_user_email'>api@eventbrite.com</span>
@@ -345,9 +363,7 @@
         <a href="#home" data-rel="back" data-direction="reverse" data-role="button" data-theme="b" data-icon='arrow-l'>Back</a>
         <h1>Find Events</h1>
     </div><!-- /header -->
-    <div data-role="content">   
-        <p><i>Coming Soon...</i></p>
-    </div><!-- /content -->
+    <div id='searchevents' data-role="content"></div><!-- /content -->
 </div><!-- /page -->
 
 </body>
