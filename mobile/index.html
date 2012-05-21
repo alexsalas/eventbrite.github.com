@@ -86,6 +86,8 @@
       $.extend(  $.mobile , {
         loadingMessageTextVisible: true,
         renderSearch: function(response){
+              console.log("RENDER SEARCH");
+              console.log(response);
               if(response.error == undefined){
                 //$.mobile.events = response.events;
               }
@@ -258,6 +260,8 @@
                 Eventbrite(function(eb){
                   eb.event_search({'latitude': position.coords.latitude, 'longitude':position.coords.longitude }, $.mobile.renderSearch );
                 });
+              }else{
+                console.log(position);
               }
               //  var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
               //  //Clear the marker if it exists
