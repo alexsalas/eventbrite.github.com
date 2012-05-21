@@ -107,7 +107,7 @@
               }else{
                 console.log('not undefined');
               }
-              Eventbrite.prototype.utils.list( '#searchevents', evnts_html, $.mobile.loadSearch );
+              Eventbrite.prototype.utils.list( '#search', evnts_html, $.mobile.loadSearch );
         },
         renderEvents: function(response){
               if(response.error == undefined){
@@ -396,6 +396,14 @@
     <div id='mytickets' data-role="content"></div><!-- /content -->
 </div><!-- /page -->
 
+<div id="filters" data-role="page" data-dom-cache="true">
+    <div data-theme="b" data-iconpos="right" data-role="header">
+      <h1>Search Filters</h1>
+    </div><!-- /header -->
+    <div id='searchconfig' data-role="content">
+      SEARCH FORM GOES HERE
+    </div>
+</div>   
 <div id="setup" data-role="page" data-dom-cache="true">
     <div data-theme="b" data-iconpos="right" data-role="header">
       <h1>Account Setup</h1>
@@ -451,6 +459,7 @@
     <div data-icon="search" data-iconpos="right" data-role="header">
         <a href="#home" data-rel="back" data-direction="reverse" data-role="button" data-theme="b" data-icon='arrow-l'>Back</a>
         <h1>Find Events</h1>
+        <a href="#filters" data-rel="dialog" data-iconpos="right" data-role="button" data-theme="b" data-icon='gear'>Filters</a>
     </div><!-- /header -->
     <div id='searchevents' data-role="content"></div><!-- /content -->
 </div><!-- /page -->
