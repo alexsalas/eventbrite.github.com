@@ -254,9 +254,9 @@
           $('.eb_logout a').bind('click', function(){ 
             Eventbrite.prototype.data.deleteAccessToken(); 
             localStorage.clear();
-            $.mobile.reloadEvents();
-            $.mobile.reloadProfiles();
-            $.mobile.reloadTickets();
+            $.mobile.reloadMyEvents();
+            $.mobile.reloadMyProfiles();
+            $.mobile.reloadMyTickets();
             $('.eb_user_info').hide();
             $('.eb_login_btn').show();
           });  
