@@ -8,7 +8,7 @@
     var eb_events = {};
     $(document).ready(function(){
       // A helper for drawing lists based on API responses:
-      Eventbrite.prototype.utils.list = function( selector, content_html, header_html ){
+      Eventbrite.prototype.utils.list = function( selector, content_html, header_html, callback ){
         var page = $( selector );
         // Get the content area element for the page.
         var content = page.children( ":jqmData(role=content)" );
@@ -25,107 +25,197 @@
         page.page();
         // Enhance the listview we just injected.
         content.find( ":jqmData(role=listview)" ).listview();
-      }
 
-      // Using the Eventbrite OAuth2.0 login Widget to display the user's state -
-      // for more information about how to use this widget see 
-      // https://github.com/ryanjarvinen/Eventbrite.jquery.js/blob/master/OAUTH2-README.md
-      Eventbrite.prototype.widget.login({
-        'app_key': 'N2EzOTZjY2RmNTQz',
-        'renderer': 'disabled',
-      }, function(strings){
-        // A callback for work that needs to happen AFTER we know the state of the user's session:
+        if( typeof( callback ) == "function"){
+          callback();
+        }
+      };
 
-        // Place the resulting Eventbrite login widget code somewhere on your page.
-        // This example places the content into an element marked with class="eb_login_box"
-        $(".eb_login_loading").hide();
-        if( strings['user_name']   !== undefined &&
-          strings['user_email']  !== undefined ){
-          $(".eb_user_name").html(strings.user_name);
-          $(".eb_user_email").html(strings.user_email);
-          $(".eb_user_info").show();
-          $(".eb_logout").show();
-        }else{
-          $(".eb_login_btn").show();
-          if(strings['login_error'] !== undefined){
-            $(".eb_login_error").html(strings['login_error']);
-            $(".eb_login_error").show();
+      // Listen for any attempts to call changePage().
+      $(document).bind( "pagechange", function( e, data ) {
+        var url = '';
+
+        // We only want to handle changePage() calls where the caller is
+        // asking us to load a page by URL.
+        if ( typeof data.toPage === "string" ) {
+          url = data.toPage;
+        }else if( typeof( data.toPage ) === 'object'){
+          url = data.toPage.context.URL;
+        }
+
+        // We are being asked to load a page by URL, but we only
+        // want to handle URLs that request the data for a specific
+        // category.
+        var u = $.mobile.path.parseUrl( url );
+        console.log( u.hash );
+        if( u.hash.search( /^#events/ ) !== -1 ){
+          // Make sure to tell changePage() we've handled this call so it doesn't
+          // have to do anything.
+          // IF PAGE HAS _NOT_ BEEN LOADED:
+          if( document.getElementById('myevents').innerHTML === ""){
+            //e.preventDefault();
+            $.mobile.showPageLoadingMsg("a", "loading your events");
           }
-        }  
-        if( strings['oauth_link'] !== undefined ){
-          $(".eb_login_btn a").attr('href', strings.oauth_link );
-        }  
+        }else if( u.hash.search( /^#organizers/) !== -1 ){
+          if( document.getElementById('myprofiles').innerHTML === ""){
+            $.mobile.showPageLoadingMsg("a", "loading your profiles");
+          }
+        }else if( u.hash.search( /^#tickets/) !== -1 ){
+          console.log("TicketS");
+          if( document.getElementById('myevents').innerHTML === ""){
+            $.mobile.showPageLoadingMsg("a", "loading your tickets");
+          }
+        }else if( u.hash.search(  /^#search/ ) !== -1 ){
+          console.log("SEARCH");
+        }else if( u.hash.search( /^#account/ ) !== -1 ){
+          console.log("ACCOUNT");
+        }
+      });
 
-        //Set up a custom logout handler
-        $('.eb_logout a').bind('click', function(){ 
-          Eventbrite.prototype.data.deleteAccessToken(); 
-          $('.eb_user_info').hide();
-          $('.eb_login_btn').show();
-        });  
-
-        //Pre-load some page content, this client will default to using the Eventbrite
-        //  OAuth token located in localStorage if no other init parameters are supplied
-        Eventbrite(function(eb){
-          //Populate this user's event list -
-          eb.user_list_events( {'do_not_display': "style,password,box_header_text_color,category,tags,tickets,link_color,box_background_color,box_border_color,timezone,description,background_color,text_color"}, function(response){
-            var events_html = '<div>No events were found for this account</div>';
-            if(response['events'] !== undefined){
-              eb_events = response.events;
-              var num = response.events.length;
-              var evnt_list = ['<ul data-role="listview" data-inset="true" data-filter="true" data-theme="c">'];
-              for(var x = 0; x < num; x +=1){
-                evnt_list.push('<li><a href="' + response.events[x]['event'].url + '">' + response.events[x]['event'].title + '</a></li>'); 
-              }
-              evnt_list.push( '</ul>' );
-              evnts_html = evnt_list.join("\n");
-            }
-            eb.utils.list( '#events', evnts_html );
+      //This might be a good time to prefetch the My Events page, and other pages...
+      $.mobile.checkMyAccount();
+      $.mobile.pullMyEvents();
+      $.mobile.pullMyTickets();
+      $.mobile.pullMyProfiles();
+    });
+    $(document).bind("mobileinit", function(){
+      $.extend(  $.mobile , {
+        loadingMessageTextVisible: true,
+        pullMyEvents: function(){
+          //Pre-load some page content, this client will default to using the Eventbrite
+          //  OAuth token located in localStorage if no other init parameters are supplied
+          Eventbrite(function(eb){
+            //Populate this user's event list -
+            eb.user_list_events( {'do_not_display': "style,password,box_header_text_color,category,tags,tickets,link_color,box_background_color,box_border_color,timezone,description,background_color,text_color"}, $.mobile.renderEvents );
           });
-          // Populate this user's list of organizer accounts - 
-          eb.user_list_organizers( function(response){
-            var organizers_html = '<div>No organizer accounts were found for this user</div>';
-            if(response['organizers'] !== undefined){
-              var num = response.organizers.length;
-              var organizer_list = ['<ul data-role="listview" data-inset="true" data-filter="true" data-theme="c">'];
-              var org = {};
-              for(var x = 0; x < num; x +=1){
-                org = response.organizers[x]['organizer'];
-                if( org.name !== '' && org.name !== undefined ){
-                  organizer_list.push('<li><a href="' + org.url + '">' + org.name + '</a></li>');
-                }else{ 
-                  organizer_list.push('<li data-theme="d"><a href="'+ org.url +'"><i>Unnamed Organizer</i></a></li>');
+        },
+        renderEvents: function(response){
+              var events_html = '<div>No events were found for this account</div>';
+              if(response['events'] !== undefined){
+                eb_events = response.events;
+                var num = response.events.length;
+                var evnt_list = ['<ul data-role="listview" data-inset="true" data-filter="true" data-theme="c">'];
+                for(var x = 0; x < num; x +=1){
+                  evnt_list.push('<li><a href="' + response.events[x]['event'].url + '">' + response.events[x]['event'].title + '</a></li>'); 
                 }
+                evnt_list.push( '</ul>' );
+                evnts_html = evnt_list.join("\n");
               }
-              organizer_list.push( '</ul>' );
-              organizers_html = organizer_list.join("\n");
-            }
-            eb.utils.list( '#organizers', organizers_html );
-          });
-          // Populate this users list of Tickets
-          eb.user_list_tickets( function(response){
-            var tickets_html = '<div>No tickets were found for this user</div>';
-            if(response['user_tickets'] !== undefined){
-              var num = response.user_tickets[1].orders.length;
-              var ticket_list = ['<ul data-role="listview" data-theme="c">'];
-              var tckt = {};
-              for(var x = 0; x < num; x +=1){
-                tckt = response.user_tickets[1].orders[x]['order'];
-                ticket_list.push('<li><a href="http://www.eventbrite.com/orderconfirmation/' + tckt['event'].id + '/' + tckt.id + '">' + tckt['event'].title + '</a></li>'); 
+              Eventbrite.prototype.utils.list( '#events', evnts_html, $.mobile.loadMyEvents );
+        },
+        renderProfiles: function(response){
+              var organizers_html = '<div>No organizer accounts were found for this user</div>';
+              if(response['organizers'] !== undefined){
+                var num = response.organizers.length;
+                var organizer_list = ['<ul data-role="listview" data-inset="true" data-filter="true" data-theme="c">'];
+                var org = {};
+                for(var x = 0; x < num; x +=1){
+                  org = response.organizers[x]['organizer'];
+                  if( org.name !== '' && org.name !== undefined ){
+                    organizer_list.push('<li><a href="' + org.url + '">' + org.name + '</a></li>');
+                  }else{ 
+                    organizer_list.push('<li data-theme="d"><a href="'+ org.url +'"><i>Unnamed Organizer</i></a></li>');
+                  }
+                }
+                organizer_list.push( '</ul>' );
+                organizers_html = organizer_list.join("\n");
               }
-              ticket_list.push( '</ul>' );
-              tickets_html = ticket_list.join("\n");
-            }
-            eb.utils.list( '#tickets', tickets_html );
+              Eventbrite.prototype.utils.list( '#organizers', organizers_html, $.mobile.loadMyProfiles );
+        },
+        renderTickets: function(response){
+              var tickets_html = '<div>No tickets were found for this user</div>';
+              if(response['user_tickets'] !== undefined){
+                var num = response.user_tickets[1].orders.length;
+                var ticket_list = ['<ul data-role="listview" data-theme="c">'];
+                var tckt = {};
+                for(var x = 0; x < num; x +=1){
+                  tckt = response.user_tickets[1].orders[x]['order'];
+                  ticket_list.push('<li><a href="http://www.eventbrite.com/orderconfirmation/' + tckt['event'].id + '/' + tckt.id + '">' + tckt['event'].title + '</a></li>'); 
+                }
+                ticket_list.push( '</ul>' );
+                tickets_html = ticket_list.join("\n");
+              }
+              Eventbrite.prototype.utils.list( '#tickets', tickets_html, $.mobile.loadMyTickets );
+        },
+        loadMyEvents: function(){
+          //attempt to pull from cache, provide a callback for rendering the page
+          // render 'loading' dialog?
+          console.log('A page with an ID of "#events" just hit it\'s LOAD stage!');
+          if(document.location.hash === '#events'){
+            $.mobile.hidePageLoadingMsg();
+          }
+        },
+        pullMyProfiles: function(){
+          //Pre-load some page content, this client will default to using the Eventbrite
+          //  OAuth token located in localStorage if no other init parameters are supplied
+          Eventbrite(function(eb){
+            // Populate this user's list of organizer accounts - 
+            eb.user_list_organizers( $.mobile.renderProfiles );
           });
-        });
+        },
+        loadMyProfiles: function(){
+          console.log('A page with an ID of "#profiles" just hit it\'s LOAD stage!');
+          if(document.location.hash === '#organizers'){
+            $.mobile.hidePageLoadingMsg();
+          }
+        },
+        pullMyTickets: function(){
+          //Pre-load some page content, this client will default to using the Eventbrite
+          //  OAuth token located in localStorage if no other init parameters are supplied
+          Eventbrite(function(eb){
+            // Populate this users list of Tickets
+            eb.user_list_tickets( $.mobile.renderTickets );
+          });
+        },
+        loadMyTickets: function(){
+          console.log('A page with an ID of "#tickets" just hit it\'s LOAD stage!');
+          if(document.location.hash === '#tickets'){
+            $.mobile.hidePageLoadingMsg();
+          }
+        },
+        checkMyAccount: function(){
+          // Using the Eventbrite OAuth2.0 login Widget to display the user's state -
+          // for more information about how to use this widget see 
+          // https://github.com/ryanjarvinen/Eventbrite.jquery.js/blob/master/OAUTH2-README.md
+          Eventbrite.prototype.widget.login({
+            'app_key': 'N2EzOTZjY2RmNTQz',
+            'renderer': 'disabled',
+          }, $.mobile.loadMyAccount );
+        },
+        loadMyAccount: function(strings){
+          // Place the resulting Eventbrite login widget code somewhere on your page.
+          // This example places the content into an element marked with class="eb_login_box"
+          $(".eb_login_loading").hide();
+          if( strings['user_name']   !== undefined &&
+            strings['user_email']  !== undefined ){
+            $(".eb_user_name").html(strings.user_name);
+            $(".eb_user_email").html(strings.user_email);
+            $(".eb_user_info").show();
+            $(".eb_logout").show();
+          }else{
+            $(".eb_login_btn").show();
+            if(strings['login_error'] !== undefined){
+              $(".eb_login_error").html(strings['login_error']);
+              $(".eb_login_error").show();
+            }
+          }  
+          if( strings['oauth_link'] !== undefined ){
+            $(".eb_login_btn a").attr('href', strings.oauth_link );
+          }  
+  
+          //Set up a custom logout handler
+          $('.eb_logout a').bind('click', function(){ 
+            Eventbrite.prototype.data.deleteAccessToken(); 
+            $('.eb_user_info').hide();
+            $('.eb_login_btn').show();
+          });  
+        },
+        initEventSearch: function(){
+        },
+        loadEventSearch: function(){
+        }
       });
     });
-    //$( document ).delegate("#events", "pagebeforecreate", function() {
-    //  alert('A page with an ID of "aboutPage" is about to be created by jQuery Mobile!');
-    //});
-    //$( document ).delegate("#events", "pagecreate", function() {
-    //  alert('A page with an ID of "aboutPage" was just created by jQuery Mobile!');
-    //});
   </script>
   <script type="text/javascript" src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"> </script>
   <link rel="stylesheet" type="text/css" media="all" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" /> 
@@ -154,7 +244,7 @@
 </head>
 <body>
 
-<div id="home" data-role="page">
+<div id="home" data-role="page" data-dom-cache="true">
     <div data-role="header">
         <h1>Eventbrite API Tools</h1>
         <a href="#setup" data-icon="gear" data-rel="dialog" class="ui-btn-right">Setup</a>
@@ -173,44 +263,38 @@
     </div><!-- /footer -->
 </div><!-- /page -->
 
-<div id="events" data-role="page">
+<div id="events" data-role="page" data-dom-cache="true">
     <div data-iconpos="right" data-role="header">
         <a href="#home" data-rel="back" data-direction="reverse" data-role="button" data-theme="b" data-icon='arrow-l'>Back</a>
         <h1>My Events</h1>
     </div><!-- /header -->
-    <div data-role="content">   
-        <div id='myevents'>Loading...</div>
-    </div><!-- /content -->
+    <div id='myevents' data-role="content"></div><!-- /content -->
 </div><!-- /page -->
 
-<div id="organizers" data-role="page">
+<div id="organizers" data-role="page" data-dom-cache="true">
     <div data-iconpos="right" data-role="header">
         <a href="#home" data-rel="back" data-direction="reverse" data-role="button" data-theme="b" data-icon='arrow-l'>Back</a>
         <h1>My Organizer Profiles</h1>
     </div><!-- /header -->
-    <div data-role="content">   
-        <p>Loading...</p>
-    </div><!-- /content -->
+    <div id='myprofiles' data-role="content"></div><!-- /content -->
 </div><!-- /page -->
 
-<div id="tickets" data-role="page">
+<div id="tickets" data-role="page" data-dom-cache="true">
     <div data-iconpos="right" data-role="header">
         <a href="#home" data-rel="back" data-direction="reverse" data-role="button" data-theme="b" data-icon='arrow-l'>Back</a>
         <h1>My Tickets</h1>
     </div><!-- /header -->
-    <div data-role="content">   
-      <p>Loading...</p>
-    </div><!-- /content -->
+    <div id='mytickets' data-role="content"></div><!-- /content -->
 </div><!-- /page -->
 
-<div id="setup" data-role="page">
+<div id="setup" data-role="page" data-dom-cache="true">
     <div data-theme="b" data-iconpos="right" data-role="header">
       <h1>Account Setup</h1>
     </div><!-- /header -->
     <div data-role="content">   
       <div class='ui-body ui-body-c eb_login_box'>
         <div class='eb_login_widget'>
-          <div class='eb_login_loading'> Loading...  </div>
+          <div class='eb_login_loading'><span class=''></span></div>
           <div class='eb_user_info' style='display:none;'>
             <p>
               <span class='eb_user_name'>Anonymous</span><br/>
@@ -229,7 +313,7 @@
     </div><!-- /content -->
 </div><!-- /page -->
 
-<div id="account" data-role="page">
+<div id="account" data-role="page" data-dom-cache="true">
     <div data-role="header">
         <a href="#home" data-rel="back" data-direction="reverse" data-role="button" data-theme="b" data-icon='arrow-l'>Back</a>
         <h1>My Eventbrite Account</h1>
@@ -256,7 +340,7 @@
     </div><!-- /content -->
 </div><!-- /page -->
 
-<div id="search" data-role="page">
+<div id="search" data-role="page" data-dom-cache="true">
     <div data-icon="search" data-iconpos="right" data-role="header">
         <a href="#home" data-rel="back" data-direction="reverse" data-role="button" data-theme="b" data-icon='arrow-l'>Back</a>
         <h1>Find Events</h1>
