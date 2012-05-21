@@ -63,6 +63,12 @@
           if( document.getElementById('mytickets').innerHTML === ""){
             $.mobile.showPageLoadingMsg("a", "loading your tickets");
           }
+        }else if( u.hash.search(  /^#map/ ) !== -1 ){
+          console.log("SEARCH");
+          if( document.getElementById('searchmap').innerHTML === ""){
+            $.mobile.showPageLoadingMsg("a", "loading events near you");
+            $.mobile.getCurrentPosition();
+          }
         }else if( u.hash.search(  /^#search/ ) !== -1 ){
           console.log("SEARCH");
           if( document.getElementById('searchevents').innerHTML === ""){
@@ -401,7 +407,7 @@
       <h1>Search Filters</h1>
     </div><!-- /header -->
     <div id='searchconfig' data-role="content">
-      SEARCH FORM GOES HERE
+      <input type="search" name="search" id="searc-basic" value="" data-mini="true" />
     </div>
 </div>   
 <div id="setup" data-role="page" data-dom-cache="true">
@@ -455,6 +461,21 @@
     </div><!-- /content -->
 </div><!-- /page -->
 
+<div id="map" data-role="page" data-dom-cache="true">
+    <div data-icon="search" data-iconpos="right" data-role="header">
+        <a href="#home" data-rel="back" data-direction="reverse" data-role="button" data-theme="b" data-icon='arrow-l'>Back</a>
+        <h1>Find Events</h1>
+        <a href="#filters" data-rel="dialog" data-iconpos="right" data-role="button" data-theme="b" data-icon='gear'>Filters</a>
+	<div data-role="navbar">
+		<ul>
+			<li><a href="#search">List</a></li>
+			<li><a href="#map">Map</a></li>
+		</ul>
+	</div><!-- /navbar -->
+    </div><!-- /header -->
+    <div id='searchmap' data-role="content"></div><!-- /content -->
+</div><!-- /page -->
+
 <div id="search" data-role="page" data-dom-cache="true">
     <div data-icon="search" data-iconpos="right" data-role="header">
         <a href="#home" data-rel="back" data-direction="reverse" data-role="button" data-theme="b" data-icon='arrow-l'>Back</a>
@@ -462,8 +483,8 @@
         <a href="#filters" data-rel="dialog" data-iconpos="right" data-role="button" data-theme="b" data-icon='gear'>Filters</a>
 	<div data-role="navbar">
 		<ul>
-			<li><a href="#search/list">List</a></li>
-			<li><a href="#search/map">Map</a></li>
+			<li><a href="#search">List</a></li>
+			<li><a href="#map">Map</a></li>
 		</ul>
 	</div><!-- /navbar -->
     </div><!-- /header -->
