@@ -85,6 +85,25 @@
     $(document).bind("mobileinit", function(){
       $.extend(  $.mobile , {
         loadingMessageTextVisible: true,
+        renderSearch: function(response){
+              if(response.error == undefined){
+                //$.mobile.events = response.events;
+              }
+              var evnts_html = '<div>No events were found matching these search terms.</div>';
+              if(response['events'] !== undefined){
+                eb_events = response.events;
+                var num = response.events.length;
+                var evnt_list = ['<ul data-role="listview" data-inset="true" data-filter="true" data-theme="c">'];
+                for(var x = 0; x < num; x +=1){
+                  if( response.events[x]['event'] ){
+                    evnt_list.push('<li><a href="' + response.events[x]['event'].url + '">' + response.events[x]['event'].title + '</a></li>'); 
+                  }
+                }
+                evnt_list.push( '</ul>' );
+                evnts_html = evnt_list.join("\n");
+              }
+              Eventbrite.prototype.utils.list( '#searchevents', evnts_html, $.mobile.loadSearch );
+        },
         renderEvents: function(response){
               if(response.error == undefined){
                 localStorage.my_events=JSON.stringify(response);
@@ -161,6 +180,12 @@
             eb.user_list_events( {'do_not_display': "style,password,box_header_text_color,category,tags,tickets,link_color,box_background_color,box_border_color,timezone,description,background_color,text_color"}, $.mobile.renderEvents );
           });
         },
+        loadSearch: function(){
+          console.log('A page with an ID of "#search" just hit it\'s LOAD stage!');
+          if(document.location.hash === '#search'){
+            $.mobile.hidePageLoadingMsg();
+          }
+        },
         loadMyEvents: function(){
           console.log('A page with an ID of "#events" just hit it\'s LOAD stage!');
           if(document.location.hash === '#events'){
@@ -230,9 +255,7 @@
             navigator.geolocation.getCurrentPosition( function(position) {
               if(position.coords.latitude && position.coords.longitude){
                 Eventbrite(function(eb){
-                  eb.event_search({'latitude': position.coords.latitude, 'longitude':position.coords.longitude }, function(response){
-                    console.log(response);
-                  });
+                  eb.event_search({'latitude': position.coords.latitude, 'longitude':position.coords.longitude }, $.mobile.renderSearch );
                 });
               }
               //  var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
