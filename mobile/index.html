@@ -259,8 +259,10 @@
             navigator.geolocation.getCurrentPosition( function(pos){
               console.log(pos);
               Eventbrite(function(eb){
-                eb.event_search( {'longitude': pos.coords.longitude, 'latitude': pos.coords.latitude },
+                eb.event_search({ 
+                  'longitude': pos.coords.longitude, 'latitude': pos.coords.latitude },
                   function(response){ console.log(response); 
+                  $.mobile.renderSearch(response);
                 });
               });
             },
