@@ -88,7 +88,9 @@
       $.extend(  $.mobile , {
         loadingMessageTextVisible: true,
         renderEvents: function(response){
-              localStorage.my_events=JSON.stringify(response);
+              if(response.error == undefined){
+                localStorage.my_events=JSON.stringify(response);
+              }
               var evnts_html = '<div>No events were found for this account</div>';
               if(response['events'] !== undefined){
                 eb_events = response.events;
@@ -103,7 +105,9 @@
               Eventbrite.prototype.utils.list( '#events', evnts_html, $.mobile.loadMyEvents );
         },
         renderProfiles: function(response){
-              localStorage.my_profiles=JSON.stringify(response);
+              if(response.error == undefined){
+                localStorage.my_profiles=JSON.stringify(response);
+              }
               var organizers_html = '<div>No organizer accounts were found for this user</div>';
               if(response['organizers'] !== undefined){
                 var num = response.organizers.length;
@@ -123,7 +127,9 @@
               Eventbrite.prototype.utils.list( '#organizers', organizers_html, $.mobile.loadMyProfiles );
         },
         renderTickets: function(response){
-              localStorage.my_tickets=JSON.stringify(response);
+              if(response.error == undefined){
+                localStorage.my_tickets=JSON.stringify(response);
+              }
               var tickets_html = '<div>No tickets were found for this user</div>';
               if(response['user_tickets'] !== undefined){
                 var num = response.user_tickets[1].orders.length;
@@ -248,6 +254,9 @@
           $('.eb_logout a').bind('click', function(){ 
             Eventbrite.prototype.data.deleteAccessToken(); 
             localStorage.clear();
+            $.mobile.reloadEvents();
+            $.mobile.reloadProfiles();
+            $.mobile.reloadTickets();
             $('.eb_user_info').hide();
             $('.eb_login_btn').show();
           });  
