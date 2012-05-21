@@ -253,6 +253,7 @@
         getCurrentPosition: function(){
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition( function(position) {
+              console.log(positiion);
               if(position.coords.latitude && position.coords.longitude){
                 Eventbrite(function(eb){
                   eb.event_search({'latitude': position.coords.latitude, 'longitude':position.coords.longitude }, $.mobile.renderSearch );
