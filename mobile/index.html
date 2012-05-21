@@ -139,7 +139,7 @@
               Eventbrite.prototype.utils.list( '#tickets', tickets_html, $.mobile.loadMyTickets );
         },
         pullMyEvents: function(){
-          if( localStorage.my_events == undefined ){
+          if( localStorage.my_events == undefined || localStorage.my_events.slice(0,10) == "{\"error\":{"){
             Eventbrite(function(eb){
               //Populate this user's event list -
               eb.user_list_events( {'do_not_display': "style,password,box_header_text_color,category,tags,tickets,link_color,box_background_color,box_border_color,timezone,description,background_color,text_color"}, $.mobile.renderEvents );
@@ -172,7 +172,7 @@
           });
         },
         pullMyProfiles: function(){
-          if( localStorage.my_profiles == undefined ){
+          if( localStorage.my_profiles == undefined || localStorage.my_profiles.slice(0,10) == "{\"error\":{"){
             Eventbrite(function(eb){
               eb.user_list_organizers( $.mobile.renderProfiles );
             });
@@ -187,7 +187,7 @@
           }
         },
         pullMyTickets: function(){
-          if( localStorage.my_tickets == undefined ){
+          if( localStorage.my_tickets == undefined || localStorage.my_tickets.slice(0,10) == "{\"error\":{"){
             Eventbrite(function(eb){
               eb.user_list_tickets( $.mobile.renderTickets );
             });
