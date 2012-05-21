@@ -228,9 +228,9 @@
         getCurrentPosition: function(){
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition( function(position) {
-              if(position.latitude && position.longitude){
+              if(position.coords.latitude && position.coords.longitude){
                 Eventbrite(function(eb){
-                  eb.event_search({'latitude': position.latitude, 'longitude':position.longitude }, function(response){
+                  eb.event_search({'latitude': position.coords.latitude, 'longitude':position.coords.longitude }, function(response){
                     console.log(response);
                   });
                 });
