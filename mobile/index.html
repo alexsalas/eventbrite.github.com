@@ -256,29 +256,13 @@
         },
         getCurrentPosition: function(){
           if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition( function(position) {
-              console.log(position);
-              if(position.coords.latitude && position.coords.longitude){
-                Eventbrite(function(eb){
-                  eb.event_search({'latitude': position.coords.latitude, 'longitude':position.coords.longitude }, $.mobile.renderSearch );
+            navigator.geolocation.getCurrentPosition( function(pos){
+              console.log(pos);
+              Eventbrite(function(eb){
+                eb.event_search( {'longitude': pos.coords.longitude, 'latitude': pos.coords.latitude },
+                  function(response){ console.log(response); 
                 });
-              }else{
-                console.log(position);
-              }
-              //  var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-              //  //Clear the marker if it exists
-              //  if(_myLocationMarker) {
-              //    _myLocationMarker.setMap(null);
-              //  }
-              //  _myLocationLatLng = latLng;
-              //  //Add a marker on my current location
-              //  _myLocationMarker = new google.maps.Marker({
-              //      map: _map,
-              //      position: _myLocationLatLng,
-              //      icon: _options.locationIcon
-              //  });
-              //  _map.setCenter(_myLocationLatLng);
-              //  _self.refresh(_myLocationLatLng);
+              });
             },
             function(msg){
               console.log('We couldn\'t locate your position.');
