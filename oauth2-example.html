@@ -2,8 +2,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="shortcut icon" href="http://evbdn.eventbrite.com/s3-production/35362ce/django/images/icons/favicon.ico" /> 
-  <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.js"></script> 
   <script type="text/javascript" src="https://raw.github.com/ryanjarvinen/Eventbrite.jquery.js/master/Eventbrite.jquery.js"> </script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.js"></script> 
   <style type="text/css">
     .eb_login_box{
       margin:  5px auto;
@@ -28,7 +28,7 @@
   //  1. You will need to update your API Key's redirect_uri, pointing it to the public url where your Eventbrite Login Widget is available.
   //  2. You will also need to set YOUR app_key on the following line:
   //  3. Eventbrite recommends that you keep your users' access_tokens secret. Do not expose them to other users.
-  $('document').ready(function(){
+  $(document).ready(function(){
     // for more information about how to use this widget see https://github.com/ryanjarvinen/Eventbrite.jquery.js/blob/master/OAUTH2-README.md
     Eventbrite.prototype.widget.login({'app_key': 'GBJ3VLMXCMWUBVFLOA'}, function(widget_html){
       // Place the resulting Eventbrite login widget code somewhere on your page.
