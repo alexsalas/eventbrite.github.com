@@ -2,8 +2,6 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="shortcut icon" href="http://evbdn.eventbrite.com/s3-production/35362ce/django/images/icons/favicon.ico" /> 
-  <script type="text/javascript" src="https://raw.github.com/ryanjarvinen/Eventbrite.jquery.js/master/Eventbrite.jquery.js"> </script>
-  <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.js"></script> 
   <style type="text/css">
     .eb_login_box{
       margin:  5px auto;
@@ -21,8 +19,10 @@
   </div>
   <hr/> 
   <a href="http://developer.eventbrite.com/news/branding/"><img src="http://evbdn.eventbrite.com/s3-s3/static/images/django/logos/eb_powered.png"/></a>
-</body>
-<script type="text/javascript">
+
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.js"></script> 
+  <script type="text/javascript" src="https://raw.github.com/ryanjarvinen/Eventbrite.jquery.js/master/Eventbrite.jquery.js"> </script>
+  <script type="text/javascript">
   // Eventbrite OAuth Client interaction example
   //  For this example to work on YOUR host:
   //  1. You will need to update your API Key's redirect_uri, pointing it to the public url where your Eventbrite Login Widget is available.
@@ -36,4 +36,5 @@
       $('.eb_login_box').html(widget_html);
     });
   });
-</script>
+  </script>
+</body>
