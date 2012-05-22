@@ -5,27 +5,30 @@ var eb_themer = {
   'access_token': '',
   'init': function( example_eid ){
     eb_themer.example_eid = example_eid;
-    eb_themer.detect_login_state();
-
-    if(eb_themer.access_token !== ''){
-      document.getElementById( 'themer_welcome' ).style.display = 'none';
-      document.getElementById( 'themer_controls' ).style.display = 'block';
-      eb_themer.extend_client_lib();
-      eb_themer.load_event_list('eb_my_events');
-      eb_themer.get_event_theme( example_eid );
-    }
+    eb_themer.detect_login_state( function( access_token ){ 
+      eb_themer.access_token = access_token;
+      if(access_token !== ''){
+        document.getElementById( 'themer_welcome' ).style.display = 'none';
+        document.getElementById( 'themer_controls' ).style.display = 'block';
+        eb_themer.extend_client_lib();
+        eb_themer.load_event_list('eb_my_events');
+        eb_themer.get_event_theme( example_eid );
+      }
+    });
   },
   'event_cache': undefined,
-  'detect_login_state': function(){
+  'detect_login_state': function(cb){
+    var access_token = '';
     if( window.location.hash.slice( window.location.hash.indexOf("access_token=") + 13 ).indexOf("&") !== -1){
       //partial fragment slice
-      eb_themer.access_token = window.location.hash.slice( 
+      access_token = window.location.hash.slice( 
         window.location.hash.indexOf("access_token=") + 13,
         window.location.hash.indexOf("access_token=") + 13 + window.location.hash.slice( window.location.hash.indexOf("access_token=") + 13 ).indexOf("&") 
       );
     }else{
-      eb_themer.access_token = window.location.hash.slice( window.location.hash.indexOf("access_token=") + 13 );
+      access_token = window.location.hash.slice( window.location.hash.indexOf("access_token=") + 13 );
     }
+    cb( access_token );
   },
   'load_event_list': function( display_at ){
     Eventbrite({'access_token': eb_themer.access_token }, function(eb){
