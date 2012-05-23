@@ -3,7 +3,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"> 
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.js"></script> 
-  <script type="text/javascript" src="/js/Eventbrite.jquery.js"> </script>
+  <script type="text/javascript" src="../js/Eventbrite.jquery.js"> </script>
   <script type="text/javascript">
     var eb_events = {};
     $(document).ready(function(){
@@ -283,16 +283,15 @@
         loadMyAccount: function(strings){
           // Place the resulting Eventbrite login widget code somewhere on your page.
           // This example places the content into an element marked with class="eb_login_box"
-          if( strings['user_name']   !== undefined &&
-            strings['user_email']  !== undefined ){
+          if( strings.user_name !== undefined && strings.user_email !== undefined ){
             $(".eb_user_name").html(strings.user_name);
             $(".eb_user_email").html(strings.user_email);
             $(".eb_user_info").show();
             $(".eb_logout").show();
           }else{
             $(".eb_login_btn").show();
-            if(strings['login_error'] !== undefined){
-              $(".eb_login_error").html(strings['login_error']);
+            if(strings.login_error !== undefined){
+              $(".eb_login_error").html(strings.login_error);
               $(".eb_login_error").show();
             }
             if(window.location.hash === "#account"){
