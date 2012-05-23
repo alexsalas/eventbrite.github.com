@@ -33,7 +33,7 @@
     Eventbrite.prototype.utils.logout = function(my_api_key){
       Eventbrite.prototype.data.deleteAccessToken();
       //update the user name
-      $('.account_name').html('My Account');
+      $('.account_name').html("My Account<b class='caret'></b>");
   
       //show the login button
       $('.account_status_toggle').html('Login').attr('href', Eventbrite.prototype.utils.oauthLink(my_api_key)).attr('onclick','');
@@ -43,9 +43,9 @@
       if( strings['user_email'] !== undefined){
         if( strings['user_name'] !== undefined && !strings['user_name'].match(/undefined/)) {
           //update user name
-          $('.account_name').html(strings['user_name'] + "<b class='caret'>");
+          $('.account_name').html(strings['user_name'] + "<b class='caret'></b>");
         }else{
-          $('.account_name').html(strings['user_email']+ "<b class='caret'>");
+          $('.account_name').html(strings['user_email']+ "<b class='caret'></b>");
         }
         //update "login" button label / action
         $('.account_status_toggle').html('Logout').attr('href', '#').attr('onclick', "Eventbrite.prototype.utils.logout('"+my_api_key+"');return false;");
