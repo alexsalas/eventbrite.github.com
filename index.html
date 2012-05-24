@@ -63,6 +63,13 @@
     .accordion-heading {
       background-color: #F7F7F7;
     }
+    a.thumbnail:hover{
+      background: -webkit-gradient(radial, center center, 0, center center, 460, from(#CCC), to(#EEE));
+      background: -webkit-radial-gradient(circle, #CCC, #EEE);
+      background: -moz-radial-gradient(circle, #CCC, #EEE);
+      background: -ms-radial-gradient(circle, #CCC, #EEE);
+      border-color: #CCC;
+    }
     a.thumbnail{
       background-position: center center;
       background-repeat: no-repeat;
@@ -78,6 +85,36 @@
       background: -webkit-radial-gradient(circle, #FFF, #EFEFEF);
       background: -moz-radial-gradient(circle, #FFF, #EFEFEF);
       background: -ms-radial-gradient(circle, #FFF, #EFEFEF);
+      border-left: 1px solid #CCC;
+      border-right: 1px solid #CCC;
+    }
+    .hero-unit a{
+      color: #555;
+    }
+    .hero-unit a:hover{
+      text-decoration:none;
+    }
+    .carousel img{
+      width:100%;
+    }
+    .carousel-caption h3{
+      font-size:2em;
+      color:white;
+    }
+    .carousel-caption p{
+      font-size:1.35em;
+      line-height:107%;
+      color:white;
+    }
+    .carousel-caption {
+      top:0;
+      margin: 14% 15%;
+      width:62%;
+      padding:4%;
+      background-color: rgba(0, 0, 0, 0.50);
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
     }
   </style>
   <link href="css/bootstrap-responsive.css" rel="stylesheet">
@@ -148,11 +185,51 @@
 
   <div id="main" class="container"> 
     <div class="hero-unit">
-      <h1>Eventbrite Open Source</h1>
-      <p>Open Source Projects powered by the Eventbrite API</p>
+      <h1><a style="float:left;" href="http://eventbrite.com/">Eventbrite&nbsp;</a> <span style="float:left;">Open Source</span></h1>
+      <p style="clear:both;">Open Source Projects powered by the <a href="http://developer.eventbrite.com/">Eventbrite API</a></p>
     </div>
 
-    <h2 id="resources" class="hidden-phone">Developer Resources</h2>
+    <h2 id="resources">Developer Resources</h2>
+    <div id="resourceCarousel" class="visible-phone carousel">
+      <!-- Carousel items -->
+      <div class="carousel-inner">
+        <div class="active item">
+          <img src="http://developer.eventbrite.com/wp-content/themes/eventbrite/img/content/api-key.png" alt="Get An Eventbrite API Key" border="0">
+          <div class='carousel-caption'>
+            <h3>API Keys</h3>
+            <p>Ready to get started? You’ll need a key. Signup is easy. Get your's now!</p>
+            <p style='text-align:right;'><a class="btn btn-info button_small_green" href="https://eventbrite.com/api/key/">Key Me</a></p>
+          </div>
+        </div>
+        <div class="item">
+          <img src="img/eventbrite-api-doc.png" alt="Eventbrite API Docs" border="0">
+          <div class='carousel-caption'>
+	    <h3>Interactive Docs</h3>
+            <p>Click the "Try it Now!" button on any API method page for live results.</p>
+            <p style='text-align:right;'><a class="btn btn-info button_small_green" href="http://developer.eventbrite.com/doc/#methods">Read and Interact</a></p>
+          </div>
+        </div>
+        <div class="item">
+          <img src="http://developer.eventbrite.com/wp-content/themes/eventbrite/img/content/dev-forums.png" alt="Developer Forum" border="0">
+          <div class='carousel-caption'>
+	    <h3>Dev Discussion</h3>
+            <p>Connect with your community to ask questions and swap code.</p>
+            <p style='text-align:right;'><a class="btn btn-info button_small_green" href="http://developer.eventbrite.com/discussion/">Talk Techie to Me</a></p>
+          </div>
+        </div>
+        <div class="item">
+          <img src="http://developer.eventbrite.com/wp-content/themes/eventbrite/img/content/app-showcase.png" alt="Application Showcase" border="0">
+          <div class='carousel-caption'>
+	    <h3>App Showcase</h3>
+            <p>There are some kickin’ Eventbrite apps out there. Check em’ out!</p>
+            <p style='text-align:right;'><a class="btn btn-info button_small_green" href="http://eventbrite.appstores.com">Show Me the Apps</a></p>
+          </div>
+        </div>
+      </div>
+      <!-- Carousel nav -->
+      <a class="carousel-control left" href="#resourceCarousel" data-slide="prev">&lsaquo;</a>
+      <a class="carousel-control right" href="#resourceCarousel" data-slide="next">&rsaquo;</a>
+    </div>
     <ul class="thumbnails hidden-phone">
       <li class="api-key span3">
         <div class="thumbnail">
@@ -418,6 +495,7 @@
   <script src="js/bootstrap-collapse.js"></script>
   <script src="js/bootstrap-dropdown.js"></script>
   <script src="js/bootstrap-scrollspy.js"></script>
+  <script src="js/bootstrap-carousel.js"></script>
   <script src="js/application.js"></script>
   <!-- <script type="text/javascript" src="http://developer.eventbrite.com/wp-content/themes/eventbrite/js/stackunderflow.js"></script> -->
   <script type="text/javascript" src="http://use.typekit.com/ceq1nev.js"></script>
