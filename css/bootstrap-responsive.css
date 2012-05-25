@@ -139,6 +139,14 @@
     padding: 10px;
     margin: -10px;
   }
+  .
+  .carousel-caption {
+    background-color: rgba(0, 0, 0, 0.6);
+    background: -webkit-gradient(radial, center center, 0, center center, 460, from(rgba(0, 0, 0, 0.25)), to(rgba(0, 0, 0, 0.6)));
+    background: -webkit-radial-gradient(circle,rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.6));
+    background: -moz-radial-gradient(circle, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.6));
+    background: -ms-radial-gradient(circle, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.6));
+  }
 }
 
 @media (max-width: 767px) {
