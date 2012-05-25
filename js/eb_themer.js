@@ -54,7 +54,8 @@ var eb_themer = {
   },
   'detect_empty_event_list': function( list_selector ){
     var event_list = document.getElementById(list_selector);
-    if( event_list.innerHTML == "\n        	\n\n          	<div class=\"eb_event_list\">\n</div><div class=\"eb_event_list\">\n</div>" ) {
+    var event_list_content = event_list.innerHTML;
+    if( event_list_content.replace(/^\s+|\s+$|\n/g, '') == "<div class=\"eb_event_list\"></div><div class=\"eb_event_list\"></div>" ) {
       event_list.innerHTML = "<br/><p>You do not have any existing 'Live' or 'Draft' events that are ready to be themed.</p><br/><p><a href='#' onclick='eb_themer.clone_event();' class='button_medium_green' >Create an event</a></p>";
     }
   },
