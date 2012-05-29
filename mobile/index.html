@@ -66,14 +66,16 @@
         }else if( u.hash.search(  /^#map/ ) !== -1 ){
           console.log("SEARCH");
           if( document.getElementById('searchmap').innerHTML === ""){
-            $.mobile.showPageLoadingMsg("a", "loading events near you");
-            $.mobile.getCurrentPosition();
+            $.mobile.showPageLoadingMsg("a", "map support coming soon");
+            //$.mobile.getCurrentPosition();
           }
         }else if( u.hash.search(  /^#search/ ) !== -1 ){
           console.log("SEARCH");
+          $.mobile.restoreFilters();
           if( document.getElementById('searchevents').innerHTML === ""){
             $.mobile.showPageLoadingMsg("a", "loading events near you");
-            $.mobile.getCurrentPosition();
+            //$.mobile.getCurrentPosition();
+            $.mobile.pullSearchList();
           }
         }else if( u.hash.search( /^#account/ ) !== -1 ){
           if( document.getElementById('user_info').style.display == "none" && localStorage['eb_access_token'] !== undefined ){
@@ -84,6 +86,7 @@
 
       //This might be a good time to prefetch the My Events page, and other pages...
       $.mobile.checkMyAccount();
+      $.mobile.restoreFilters();
       $.mobile.pullMyEvents();
       $.mobile.pullMyTickets();
       $.mobile.pullMyProfiles();
@@ -92,7 +95,6 @@
       $.extend(  $.mobile , {
         loadingMessageTextVisible: true,
         renderSearch: function(response){
-              console.log("RENDER SEARCH");
               console.log(response);
               if(response.error == undefined){
                 //$.mobile.events = response.events;
@@ -101,7 +103,7 @@
               if(response['events'] !== undefined){
                 eb_events = response.events;
                 var num = response.events.length;
-                var evnt_list = ['<ul data-role="listview" data-inset="true" data-filter="true" data-theme="c">'];
+                var evnt_list = ['<ul data-role="listview" data-inset="true" data-theme="c">'];
                 for(var x = 0; x < num; x +=1){
                   if( response.events[x]['event'] ){
                     evnt_list.push('<li><a href="' + response.events[x]['event'].url + '">' + response.events[x]['event'].title + '</a></li>'); 
@@ -261,13 +263,47 @@
             'renderer': 'disabled',
           }, $.mobile.loadMyAccount );
         },
+        pullSearchList: function(){
+          Eventbrite(function(eb){
+            eb.event_search( $.mobile.getSearchFilters(), $.mobile.renderSearch );
+          });
+        },
+        restoreFilters: function(){
+          $('#searchconfig input').each(function(x,field){
+            if( localStorage[ $(this).attr('id') ] !== undefined ){
+              $(this).val( localStorage[ $(this).attr('id') ] );
+            }
+          });
+        },
+        saveFilters: function(){
+          $('#searchconfig input').each(function(x,field){
+            if( $(this).val() !== '' ){
+              localStorage[ $(this).attr('id') ] = $(this).val();
+            }
+          });
+        },
+        getSearchFilters: function(){
+          var params={};
+          $('#searchconfig input').each(function(x,field){
+            if($(this).attr('id') === 'within'){
+              if( $(this).val() !== "0" ){
+                params[$(this).attr('id')] = $(this).val();
+              }
+            }else if($(this).val() !== ''){
+              params[$(this).attr('id')] = $(this).val();
+            }
+          });
+          return params;
+        },
         getCurrentPosition: function(){
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition( function(pos){
               console.log(pos);
               Eventbrite(function(eb){
-                eb.event_search({ 
-                  'longitude': pos.coords.longitude, 'latitude': pos.coords.latitude },
+                params = $.mobile.getSearchFilters();
+                params.longitude = pos.coords.longitude;
+                params.latitude = pos.coords.latitude;
+                eb.event_search( params,
                   function(response){ console.log(response); 
                   $.mobile.renderSearch(response);
                 });
@@ -462,7 +498,7 @@
           <option value="city">City</option>
         </select>
       </div>
-      <a href="#search" data-icon="arrow-l" data-role="button" data-inline="true" data-theme="b">List</a>
+      <a href="#search" data-icon="arrow-l" data-role="button" data-inline="true" data-theme="b" onclick="$.mobile.saveFilters();$.mobile.pullSearchList();">List</a>
       <a href="#map" data-icon="arrow-r" data-iconpos="right" data-role="button" data-inline="true" data-theme="b">Map</a>
     </div>
 </div>   
