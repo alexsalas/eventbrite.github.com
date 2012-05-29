@@ -350,6 +350,17 @@
       padding: 0px 20px;
     }
     .eb_user_name{text-align:center;}
+    #searchconfig #within{
+      width: 50px;
+    }
+    #searchconfig .ui-slider{
+      width: 80px;
+    }
+    #searchconfig .ui-slider-switch{
+      width: 115px;
+      margin-left:1px;
+      margin-right:0px;
+    }
   </style>
   <title>Eventbrite Developer Examples</title>
 </head>
@@ -406,7 +417,53 @@
       <h1>Search Filters</h1>
     </div><!-- /header -->
     <div id='searchconfig' data-role="content">
-      <input type="search" name="search" id="searc-basic" value="" data-mini="true" />
+      <div data-role="fieldcontain">
+        <label for="keywords">Keywords:</label>
+        <input type="search" name="keywords" id="keywords" value="" />
+      </div>
+      <div data-role="fieldcontain">
+        <label for="date">Date:</label>
+        <input type="text" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset" name="date" id="date" value="" />
+      </div>
+      <div data-role="fieldcontain">
+        <label for="address">Address:</label>
+        <input type="text" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset" name="address" id="address" value="" />
+      </div>
+      <div data-role="fieldcontain">
+        <label for="city">City:</label>
+        <input type="text" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset" name="city" id="city" value="" />
+      </div>
+      <div data-role="fieldcontain">
+        <label for="region">Region:</label>
+        <input type="text" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset" name="region" id="region" value="" />
+      </div>
+      <div data-role="fieldcontain">
+        <label for="postal_code">Postal Code:</label>
+        <input type="text" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset" name="postal_code" id="postal_code" value="" />
+      </div>
+      <div data-role="fieldcontain">
+        <label for="country">Country:</label>
+        <input type="text" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset" name="country" id="country" value="" />
+      </div>
+      <div data-role="fieldcontain">
+        <label for="within">Within:</label>
+        <input type="range" name="within" id="within" value="0" min="0" max="1000" data-highlight="true" />
+        <select name="within_unit" id="within_unit" data-role="slider" data-mini="true">
+	  <option value="M">Miles</option>
+	  <option value="K">Kilometers</option>
+        </select> 
+      </div>
+      <div data-role="fieldcontain">
+        <label for="sort_by">Sort By:</label>
+        <select name="sort_by" id="sort_by">
+          <option value="date">Date</option>
+          <option value="name">Name</option>
+          <option value="id">Event ID</option>
+          <option value="city">City</option>
+        </select>
+      </div>
+      <a href="#search" data-icon="arrow-l" data-role="button" data-inline="true" data-theme="b">List</a>
+      <a href="#map" data-icon="arrow-r" data-iconpos="right" data-role="button" data-inline="true" data-theme="b">Map</a>
     </div>
 </div>   
 <div id="setup" data-role="page" data-dom-cache="true">
@@ -468,7 +525,7 @@
 	<div data-role="navbar">
 		<ul>
 			<li><a href="#search">List</a></li>
-			<li><a href="#map">Map</a></li>
+			<li><a class="ui-btn-active" href="#map">Map</a></li>
 		</ul>
 	</div><!-- /navbar -->
     </div><!-- /header -->
@@ -482,7 +539,7 @@
         <a href="#filters" data-rel="dialog" data-iconpos="right" data-role="button" data-theme="b" data-icon='gear'>Filters</a>
 	<div data-role="navbar">
 		<ul>
-			<li><a href="#search">List</a></li>
+			<li><a href="#search" class="ui-btn-active">List</a></li>
 			<li><a href="#map">Map</a></li>
 		</ul>
 	</div><!-- /navbar -->
